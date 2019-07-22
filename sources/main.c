@@ -21,7 +21,6 @@ int				main(int argc, char **argv)
 			sys_error(MAP);
 		close(data->fd);
 		init_level(data);
-		printf("TEST in MAIN\n");
 		display(data);
 	}
 }

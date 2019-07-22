@@ -21,6 +21,7 @@ void	sys_error(int error)
 		ft_putstr("ERROR: too much input\n");
 	if (error == FINISH)//
 		ft_putstr("MESSAGE: Exit the game\n");
+	//free memory
 	exit(-1);
 }
 
@@ -45,4 +46,14 @@ int		sys_close(t_dataset *data)
 	mlx_destroy_window(data->mlx, data->win);
 	sys_error(FINISH);
 	return (0);
+}
+
+void	memory_free(t_dataset *data)
+{
+	int i;
+
+	i = -1;
+	while(++i <= data->row)
+		free(data->worldmap[i]);
+	free(data->worldmap);
 }

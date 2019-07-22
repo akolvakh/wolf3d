@@ -8,7 +8,6 @@ void	render_geometry(t_dataset *data)
 	data->img_wall = (int*)mlx_get_data_addr(data->img, &(data->wall_bpp),
 		&(data->wall_sl), &(data->wall_end));
 	data->x = -1;
-	printf("I AM HERE\n");
 	while (++data->x < data->w)
 	{
 		drawstuff1(data);//change
@@ -78,7 +77,6 @@ void	display(t_dataset *data)
 		sys_error(WIN);
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	//init_dataset(*data);
-	printf("TEST3\n");
 	rendering(data);
 	mlx_loop_hook(data->mlx, key_controllers, data);
 	mlx_loop(data->mlx);

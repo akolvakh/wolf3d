@@ -38,33 +38,22 @@ void	init_level(t_dataset *data)
 {
 	int i;
 	int k;
+	int j;
 	char numb;
 	char *ptr;
 	
-	if (!(data->worldmap = (char **)ft_memalloc(sizeof(char) * data->amount * data->row)))
-		sys_error(MALLOC);
-	
-	i = 0;
-	while(i <= data->row)
-	{
-		int j;
-
-		j = 0;
-		data->worldmap[i] = (char *)ft_memalloc(sizeof(char*));
-		while(j < data->l+1)
-		{
-			data->worldmap[i][j] = (char )ft_memalloc(sizeof(char) );
-			j++;
-		}
-		i++;
-	}
-
+	i = -1;
 	k = 0;
+	if (!(data->worldmap = (char **)ft_memalloc(sizeof(char) * data->l * data->row)))
+		sys_error(MALLOC);
+	while(++i <= data->row)
+	{
+		if (!data->worldmap[i] = (char *)ft_memalloc(sizeof(char*)*data->l))
+			sys_error(MALLOC);
+	}
 	i = 0;
 	while(i <= data->row)
 	{
-		int j;
-
 		j = 0;
 		while(j < data->l)
 		{
@@ -74,22 +63,7 @@ void	init_level(t_dataset *data)
 			j++;
 			k++;
 		}//закрывать массив?
-		data->worldmap[i][j+1] = '\n';
-		i++;
-	}
-
-	i = 0;
-	while(i <= data->row)
-	{
-		int j;
-
-		j = 0;
-		while(j < data->l)
-		{
-			ft_putchar(data->worldmap[i][j]);
-			j++;
-		}
-		ft_putchar('\n');
+		data->worldmap[i][j+1] = '\0';
 		i++;
 	}
 }
@@ -110,18 +84,3 @@ void	init_color(t_dataset *data)
 	else if (color == '0')
 		data->color = 0x008080;
 }
-
-
-
-	
-
-	/*data->worldmap[0] = "1111111111";
-	data->worldmap[1] = "1000000001";
-	data->worldmap[2] = "1000000001";
-	data->worldmap[3] = "1000000001";
-	data->worldmap[4] = "1000000001";
-	data->worldmap[5] = "1000300001";
-	data->worldmap[6] = "1000000001";
-	data->worldmap[7] = "1000000001";
-	data->worldmap[8] = "1000000001";
-	data->worldmap[9] = "1111111111";*/
