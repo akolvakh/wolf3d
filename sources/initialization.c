@@ -1,7 +1,11 @@
 #include "wolf3d.h"
 
-void	init_dataset(t_dataset *data)
+t_dataset	*init_dataset(char *argv)
 {
+	t_dataset *data;
+
+	if (!(data = (t_dataset *)ft_memalloc(sizeof(t_dataset))))
+		sys_error(MALLOC);
 	data->w = WIDTH;
 	data->h = HEIGHT;
 	data->posx = 6;
@@ -18,10 +22,34 @@ void	init_dataset(t_dataset *data)
 	data->rightkey = 0;
 	data->rotspeed = .2;
 	data->movespeed = .2;
+
+
+
+	data->amount = blocks_counter(argv);
+	data->row = 32;
+	data->a = 0;
+	data->cnt = 0;
+	data->line = 0;
+	if (!(data->def = (t_dot *)ft_memalloc(sizeof(t_dot) * data->amount)))
+		sys_error(MALLOC);
+	if (!(data->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * data->amount)))
+		sys_error(MALLOC);
+	return (data);
+
+
+
 }
 
 void	init_level(t_dataset *data)
 {
+	/*data->cnt = -1;
+	while (++data->cnt < data->amount) //фришить память и етс. Переписать из того буфера в этот, а тот очистить.
+	{
+		data->def[data->cnt].x = data->dot[data->cnt].x;
+		data->def[data->cnt].y = data->dot[data->cnt].y;
+		data->def[data->cnt].z = data->dot[data->cnt].z;
+	}*/
+
 	data->worldmap[0] = "1111111111";
 	data->worldmap[1] = "1000000001";
 	data->worldmap[2] = "1000000001";

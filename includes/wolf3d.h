@@ -7,6 +7,7 @@
 # include <math.h>
 # include "libft.h"
 # include "mlx.h"
+# include <stdio.h>//
 
 
 # define HEIGHT 		800
@@ -197,12 +198,13 @@ typedef struct		s_dataset
 
 void				init_level(t_dataset *data);
 void				init_color(t_dataset *data);
-void				init_dataset(t_dataset *data);
+//void				init_dataset(t_dataset *data);
+t_dataset			*init_dataset(char *argv);
 
 void				sys_printcontrols(int i);
 void				sys_exit(char	*str);
 
-void				sys_errorcheck(char *str);
+//void				sys_errorcheck(char *str);
 void				sys_error(int error);
 void				sys_message(int message);
 int					sys_close(t_dataset *data);

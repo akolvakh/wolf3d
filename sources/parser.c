@@ -15,6 +15,7 @@
 
 #include "wolf3d.h"
 
+
 int		    count_words(const char *s, char c)
 {
 	int i;
@@ -72,8 +73,6 @@ t_dataset	*tinfo_init(char *argv)
 		sys_error(MALLOC);
 	if (!(data->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * data->amount)))
 		sys_error(MALLOC);
-	/*if (!(data->crd = (t_crd *)ft_memalloc(sizeof(t_crd))))
-		sys_error(MALLOC);*/
 	return (data);
 }
 
@@ -88,8 +87,8 @@ int		parser(t_dataset *data)
 		data->a = -1;
 		free(data->tmp);
 		data->tmp = ft_strsplit(data->buff, ' ');
-		while (data->tmp[++data->a])
-		{
+		while (data->tmp[++data->a]) //(писать сразу значения сюда и в этот буфер?)
+		{//тут цикл и вертушку по записи сразу в нужный буфер?
 			data->dot[data->cnt].x = data->line;
 			data->dot[data->cnt].y = data->a;
 			data->dot[data->cnt].z = ft_atoi(data->tmp[data->a]);
@@ -101,5 +100,5 @@ int		parser(t_dataset *data)
 		data->line++;
 	}
 	free(data->tmp);
-	return (data->a);
+	return (data->line);
 }
