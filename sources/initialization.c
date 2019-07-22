@@ -22,11 +22,8 @@ t_dataset	*init_dataset(char *argv)
 	data->rightkey = 0;
 	data->rotspeed = .2;
 	data->movespeed = .2;
-
-
-
-	data->amount = blocks_counter(argv);
-	data->row = 32;
+	data->amount = count_blocks(argv);
+	data->row = 0;
 	data->a = 0;
 	data->cnt = 0;
 	data->line = 0;
@@ -35,31 +32,66 @@ t_dataset	*init_dataset(char *argv)
 	if (!(data->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * data->amount)))
 		sys_error(MALLOC);
 	return (data);
-
-
-
 }
 
 void	init_level(t_dataset *data)
 {
-	/*data->cnt = -1;
-	while (++data->cnt < data->amount) //фришить память и етс. Переписать из того буфера в этот, а тот очистить.
+	int i;
+	int k;
+	char numb;
+	char *ptr;
+	
+	if (!(data->worldmap = (char **)ft_memalloc(sizeof(char) * data->amount * data->row)))
+		sys_error(MALLOC);
+	
+	i = 0;
+	while(i <= data->row)
 	{
-		data->def[data->cnt].x = data->dot[data->cnt].x;
-		data->def[data->cnt].y = data->dot[data->cnt].y;
-		data->def[data->cnt].z = data->dot[data->cnt].z;
-	}*/
+		int j;
 
-	data->worldmap[0] = "1111111111";
-	data->worldmap[1] = "1000000001";
-	data->worldmap[2] = "1000000001";
-	data->worldmap[3] = "1000000001";
-	data->worldmap[4] = "1000000001";
-	data->worldmap[5] = "1000300001";
-	data->worldmap[6] = "1000000001";
-	data->worldmap[7] = "1000000001";
-	data->worldmap[8] = "1000000001";
-	data->worldmap[9] = "1111111111";
+		j = 0;
+		data->worldmap[i] = (char *)ft_memalloc(sizeof(char*));
+		while(j < data->l+1)
+		{
+			data->worldmap[i][j] = (char )ft_memalloc(sizeof(char) );
+			j++;
+		}
+		i++;
+	}
+
+	k = 0;
+	i = 0;
+	while(i <= data->row)
+	{
+		int j;
+
+		j = 0;
+		while(j < data->l)
+		{
+			ptr = ft_itoa(data->dot[k].z);
+			numb = *ptr;
+			data->worldmap[i][j] = numb;
+			j++;
+			k++;
+		}//закрывать массив?
+		data->worldmap[i][j+1] = '\n';
+		i++;
+	}
+
+	i = 0;
+	while(i <= data->row)
+	{
+		int j;
+
+		j = 0;
+		while(j < data->l)
+		{
+			ft_putchar(data->worldmap[i][j]);
+			j++;
+		}
+		ft_putchar('\n');
+		i++;
+	}
 }
 
 void	init_color(t_dataset *data)
@@ -78,3 +110,18 @@ void	init_color(t_dataset *data)
 	else if (color == '0')
 		data->color = 0x008080;
 }
+
+
+
+	
+
+	/*data->worldmap[0] = "1111111111";
+	data->worldmap[1] = "1000000001";
+	data->worldmap[2] = "1000000001";
+	data->worldmap[3] = "1000000001";
+	data->worldmap[4] = "1000000001";
+	data->worldmap[5] = "1000300001";
+	data->worldmap[6] = "1000000001";
+	data->worldmap[7] = "1000000001";
+	data->worldmap[8] = "1000000001";
+	data->worldmap[9] = "1111111111";*/

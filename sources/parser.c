@@ -27,7 +27,7 @@ int		    count_words(const char *s, char c)
 	{
 		if (s[i] == c && (s[i + 1] != c && s[i + 1] != '\0'))
 			word++;
-		if ((s[i] < '0' || s[i] > '4') && s[i] != '-' && s[i] != '+' &&
+		if ((s[i] < '0' || s[i] > '4') &&
 			s[i] != '\n' && s[i] != '\0' && s[i] != ' ')
 			sys_error(VALUE);
 		i++;
@@ -37,7 +37,7 @@ int		    count_words(const char *s, char c)
 	return (word);
 }
 
-int		    blocks_counter(char *argv)
+int		    count_blocks(char *argv)
 {
 	int		i;
 	int		j;
@@ -58,25 +58,7 @@ int		    blocks_counter(char *argv)
 	return (i);
 }
 
-t_dataset	*tinfo_init(char *argv)
-{
-    t_dataset *data;
-
-	if (!(data = (t_dataset *)ft_memalloc(sizeof(t_dataset))))
-		sys_error(MALLOC);
-	data->amount = blocks_counter(argv);
-	data->row = 32;
-	data->a = 0;
-	data->cnt = 0;
-	data->line = 0;
-	if (!(data->def = (t_dot *)ft_memalloc(sizeof(t_dot) * data->amount)))
-		sys_error(MALLOC);
-	if (!(data->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * data->amount)))
-		sys_error(MALLOC);
-	return (data);
-}
-
-int		parser(t_dataset *data)
+int         parser(t_dataset *data)
 {
 	data->tmp = (char **)ft_memalloc(sizeof(char **));
 	while ((data->ret = get_next_line(data->fd, &data->buff)) > 0)

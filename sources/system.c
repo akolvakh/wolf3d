@@ -46,11 +46,3 @@ int		sys_close(t_dataset *data)
 	sys_error(FINISH);
 	return (0);
 }
-
-/*void	sys_errorcheck(char *str) //заменить на парсер и на карту
-{
-	if (ft_strcmp(str, "start") == 0)
-		sys_message(START);
-	else
-		sys_error(MAP);
-}*/

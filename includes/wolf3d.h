@@ -13,7 +13,7 @@
 # define HEIGHT 		800
 # define WIDTH 			1400
 
-# define MAPH 			10
+# define MAPH 			50
 # define MAPW 			10
 
 # define YELLOW 		0xF5B201
@@ -54,7 +54,7 @@ typedef struct		s_dot
 
 typedef struct		s_dataset
 {
-	char			*worldmap[MAPH];
+	char			**worldmap;
 
 	void			*mlx;
 	void			*win;
@@ -198,17 +198,12 @@ typedef struct		s_dataset
 
 void				init_level(t_dataset *data);
 void				init_color(t_dataset *data);
-//void				init_dataset(t_dataset *data);
 t_dataset			*init_dataset(char *argv);
 
-void				sys_printcontrols(int i);
-void				sys_exit(char	*str);
 
-//void				sys_errorcheck(char *str);
 void				sys_error(int error);
 void				sys_message(int message);
 int					sys_close(t_dataset *data);
-
 
 
 void				movement_up(t_dataset *data);
@@ -226,7 +221,7 @@ void				drawstuff4(t_dataset *data);
 unsigned int		colormagic(int i, double x, double y);
 void				novatempus(t_dataset *data, int x);
 
-void				window(t_dataset *data);
+void				display(t_dataset *data);
 void				rendering(t_dataset *data);
 
 
@@ -237,10 +232,10 @@ int					key_pressed(int key, t_dataset *data);
 int					key_controllers(t_dataset *data);
 
 
- int				parser(t_dataset *data);
- t_dataset			*tinfo_init(char *argv);
- int		    	blocks_counter(char *argv);
- int		   		count_words(const char *s, char c);
+int					count_blocks(char *argv);
+int					count_words(const char *s, char c);
+int					parser(t_dataset *data);
+ 
 
 
 #endif
