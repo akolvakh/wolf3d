@@ -36,17 +36,17 @@ void	init_level(t_dataset *data)
 
 void	init_color(t_dataset *data)
 {
-	char initio;
+	char color;
 
-	initio = data->worldmap[data->mapx][data->mapy];
-	if (initio == '1')
+	color = data->worldmap[data->mapx][data->mapy];
+	if (color == '1')
 		data->color = 0x00FFFF;
-	else if (initio == '2')
+	else if (color == '2')
 		data->color = 0x0000FF;
-	else if (initio == '3')
+	else if (color == '3')
 		data->color = 0x9400D3;
-	else if (initio == '4')
+	else if (color == '4')
 		data->color = 0xFF8C00;
-	else if (initio == '0')
+	else if (color == '0')
 		data->color = 0x008080;
 }

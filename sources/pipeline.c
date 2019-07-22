@@ -78,6 +78,7 @@ void	window(t_dataset *data)//изменить название
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	init_dataset(data);
 	rendering(data);
-	mlx_loop_hook(data->mlx, sys_repeat, data);
+	mlx_loop_hook(data->mlx, key_controllers, data);
 	mlx_loop(data->mlx);
+
 }

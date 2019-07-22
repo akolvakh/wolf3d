@@ -38,23 +38,18 @@
 # define UP				13
 # define DOWN			14
 
-/*
-typedef struct			s_fdf
-{
-	void				*mlx;
-	void				*win;
-	void				*img;
-	char				*data_addr;
-	int					bits_per_pixel;
-	int					size_line;
-	int					endian;
-	t_camera			*camera;
-	t_map				*map;
-	t_mouse				*mouse;
-}						t_fdf;*/
+
 
 
 //struct images
+
+typedef struct		s_dot
+{
+	int				x;
+	int				y;
+	int				z;
+	int				color;
+}					t_dot;
 
 typedef struct		s_dataset
 {
@@ -174,6 +169,29 @@ typedef struct		s_dataset
 	int				leftkey;
 	int				rightkey;
 	unsigned char	chan[3];
+
+
+
+	int				a;
+	char			**tmp;
+	char			*buff;
+	int				ret;
+	int				fd;
+	int				l;
+	int				line;
+	int				cnt;
+	int				v;
+	int				c;
+	int				b;
+	int				derr;
+	int				row;
+	int				amount;
+
+
+
+	t_dot			*def;
+	t_dot			*dot;
+
 }					t_dataset;
 
 
@@ -188,7 +206,7 @@ void				sys_errorcheck(char *str);
 void				sys_error(int error);
 void				sys_message(int message);
 int					sys_close(t_dataset *data);
-int					sys_repeat(t_dataset *data);
+
 
 
 void				movement_up(t_dataset *data);
@@ -214,6 +232,13 @@ void				rendering(t_dataset *data);
 int					key_hendler(int key, t_dataset *data);
 int					key_push(int key, t_dataset *data);
 int					key_pressed(int key, t_dataset *data);
+int					key_controllers(t_dataset *data);
+
+
+ int				parser(t_dataset *data);
+ t_dataset			*tinfo_init(char *argv);
+ int		    	blocks_counter(char *argv);
+ int		   		count_words(const char *s, char c);
 
 
 #endif

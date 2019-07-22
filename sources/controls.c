@@ -43,3 +43,11 @@ int		key_hendler(int key, t_dataset *data)
 		movement_right(data);
 	return (0);
 }
+
+int		key_controllers(t_dataset *data)
+{
+	mlx_hook(data->win, 2, 0, key_push, data);
+	mlx_hook(data->win, 3, 0, key_pressed, data);
+	mlx_hook(data->win, 17, 0, sys_close, data);
+	return (0);
+}

@@ -9,10 +9,13 @@
 /*   Updated: 2019/04/22 18:00:13 by akolvakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/*
-#include "fractol.h"
 
-static int		count_words(const char *s, char c)
+
+
+
+#include "wolf3d.h"
+
+int		    count_words(const char *s, char c)
 {
 	int i;
 	int word;
@@ -33,7 +36,7 @@ static int		count_words(const char *s, char c)
 	return (word);
 }
 
-static int		blocks_counter(char *argv)
+int		    blocks_counter(char *argv)
 {
 	int		i;
 	int		j;
@@ -42,7 +45,7 @@ static int		blocks_counter(char *argv)
 	char	*buff;
 
 	if (!(fd = open(argv, O_RDONLY)))
-		set_error(FILE);
+		sys_error(FILE);
 	i = 0;
 	while ((ret = get_next_line(fd, &buff)) > 0)
 	{
@@ -54,79 +57,49 @@ static int		blocks_counter(char *argv)
 	return (i);
 }
 
-static t_info	*tinfo_init(t_dataset *data,char *argv)
+t_dataset	*tinfo_init(char *argv)
 {
-	if (!(info = (t_dataset *)ft_memalloc(sizeof(t_dataset))))
-		set_error(MALLOC);
-	data->meta->amount = blocks_counter(argv);
-	info->meta->scale = 2;
-	info->meta->projection = 0;
-	info->meta->row = 32;
-	info->i = 0;
-	info->cnt = 0;
-	info->line = 0;
-	if (!(info->def = (t_dot *)ft_memalloc(sizeof(t_dot) * info->meta->amount)))
-		set_error(MALLOC);
-	if (!(info->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * info->meta->amount)))
-		set_error(MALLOC);
-	if (!(info->crd = (t_crd *)ft_memalloc(sizeof(t_crd))))
-		set_error(MALLOC);
-	return (info);
+    t_dataset *data;
+
+	if (!(data = (t_dataset *)ft_memalloc(sizeof(t_dataset))))
+		sys_error(MALLOC);
+	data->amount = blocks_counter(argv);
+	data->row = 32;
+	data->a = 0;
+	data->cnt = 0;
+	data->line = 0;
+	if (!(data->def = (t_dot *)ft_memalloc(sizeof(t_dot) * data->amount)))
+		sys_error(MALLOC);
+	if (!(data->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * data->amount)))
+		sys_error(MALLOC);
+	/*if (!(data->crd = (t_crd *)ft_memalloc(sizeof(t_crd))))
+		sys_error(MALLOC);*/
+	return (data);
 }
 
-static int		parser(t_info *info)
+int		parser(t_dataset *data)
 {
-	info->tmp = (char **)ft_memalloc(sizeof(char **));
-	while ((info->ret = get_next_line(info->fd, &info->buff)) > 0)
+	data->tmp = (char **)ft_memalloc(sizeof(char **));
+	while ((data->ret = get_next_line(data->fd, &data->buff)) > 0)
 	{
-		info->l = count_words(info->buff, ' ');
-		if (info->i != 0 && info->l != info->i)
-			set_error(MAP);
-		info->i = -1;
-		free(info->tmp);
-		info->tmp = ft_strsplit(info->buff, ' ');
-		while (info->tmp[++info->i])
+		data->l = count_words(data->buff, ' ');
+		if (data->a != 0 && data->l != data->a)
+			sys_error(MAP);
+		data->a = -1;
+		free(data->tmp);
+		data->tmp = ft_strsplit(data->buff, ' ');
+		while (data->tmp[++data->a])
 		{
-			info->dot[info->cnt].y = info->line;
-			info->dot[info->cnt].x = info->i;
-			info->dot[info->cnt].z = ft_atoi(info->tmp[info->i]);
-			info->cnt++;
-			free(info->tmp[info->i]);
+			data->dot[data->cnt].x = data->line;
+			data->dot[data->cnt].y = data->a;
+			data->dot[data->cnt].z = ft_atoi(data->tmp[data->a]);
+			data->cnt++;
+			free(data->tmp[data->a]);
 		}
-		info->i = count_words(info->buff, ' ');
-		free(info->buff);
-		info->line++;
+		data->a = count_words(data->buff, ' ');
+		free(data->buff);
+		data->line++;
 	}
-	free(info->tmp);
-	return (info->i);
+	free(data->tmp);
+	return (data->a);
 }
-
-int				main(int argc, char **argv)
-{
-	t_info *info;
-
-	if (argc != 2)
-		set_error(USAGE);
-	info = tinfo_init(argv[1]);
-	info->fd = open(argv[1], O_RDONLY);
-	if ((info->meta->row = parser(info) - 1) < 0)
-		set_error(MAP);
-	close(info->fd);
-	info->cnt = -1;
-	while (++info->cnt < info->meta->amount)
-	{
-		info->def[info->cnt].x = info->dot[info->cnt].x;
-		info->def[info->cnt].y = info->dot[info->cnt].y;
-		info->def[info->cnt].z = info->dot[info->cnt].z;
-	}
-	info->mlx_ptr = mlx_init();
-	if (!(info->win_ptr = mlx_new_window(info->mlx_ptr, WTH, HTH, argv[1])))
-		set_error(WIN);
-	set_description(info);
-	mlx_key_hook(info->win_ptr, deal_key, info);
-	mlx_mouse_hook(info->win_ptr, deal_mouse, info);
-	mlx_hook(info->win_ptr, 17, 0, deal_cross, (void *)0);
-	mlx_loop(info->mlx_ptr);
-	return (0);
-}
-*/

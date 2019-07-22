@@ -54,11 +54,3 @@ void	sys_errorcheck(char *str) //заменить на парсер и на ка
 	else
 		sys_error(MAP);
 }
-
-int		sys_repeat(t_dataset *g)
-{
-	mlx_hook(g->win, 2, 0, key_push, g);
-	mlx_hook(g->win, 3, 0, key_pressed, g);
-	mlx_hook(g->win, 17, 0, sys_close, g);
-	return (0);
-}
