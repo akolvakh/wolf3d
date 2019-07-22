@@ -7,10 +7,10 @@ void	render_geometry(t_dataset *data)
 	data->x = -1;
 	while (++data->x < data->w)
 	{
-		drawstuff1(data);//change
+		ray(data);//change
 		drawstuff2(data);//change
 		drawstuff3(data);//change
-		drawstuff4(data);//change
+		visualization(data);//change
 	}
 }
 

@@ -8,6 +8,9 @@
 # include "libft.h"
 # include "mlx.h"
 
+#define texWidth 64
+#define texHeight 64
+
 enum				e_keys
 {
 	Q = 12, E = 14, R = 15,
@@ -185,12 +188,12 @@ void				movement_left(t_dataset *data);
 void				movement_right(t_dataset *data);
 
 void				render_geometry(t_dataset *data);
-void				drawstuff1(t_dataset *data);
+void				ray(t_dataset *data);
 void				drawstuff2(t_dataset *data);
 void				drawstuff3(t_dataset *data);
-void				drawstuff4(t_dataset *data);
+void				visualization(t_dataset *data);
 unsigned int		colormagic(int i, double x, double y);
-void				novatempus(t_dataset *data, int x);
+void				texturation(t_dataset *data, int x);
 
 void				display(t_dataset *data);
 void				rendering(t_dataset *data);

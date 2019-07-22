@@ -16,7 +16,7 @@ unsigned int	colormagic(int i, double x, double y)
 	return (color);
 }
 
-void			novatempus(t_dataset *data, int x)
+void			texturation(t_dataset *data, int x)
 {
 	int		initioy;
 	int		mori;
@@ -39,7 +39,7 @@ void			novatempus(t_dataset *data, int x)
 		data->img_wall[x + (initio * data->wall_sl / 4)] = 0xC00000AA;
 }
 
-void			drawstuff1(t_dataset *g) //stage 1 - function, data, different structures, same(one) structure, shaders, buffers, etc.
+void			ray(t_dataset *g) //stage 1 - function, data, different structures, same(one) structure, shaders, buffers, etc.
 {
 	g->camerax = 2 * g->x / (double)g->w - 1;
 	g->rayposx = g->posx;
@@ -108,7 +108,7 @@ void			drawstuff3(t_dataset *g) //stage 3
 	g->drawstart = -(g->lineheight) / 2 + g->h / 2;
 }
 
-void			drawstuff4(t_dataset *g) //stage 4
+void			visualization(t_dataset *g) //stage 4
 {
 	g->drawstart = -(g->lineheight) / 2 + g->h / 2;
 	if (g->drawstart < 0)
@@ -119,5 +119,5 @@ void			drawstuff4(t_dataset *g) //stage 4
 	init_color(g);
 	if (g->side == 1)
 		g->color = g->color / 2;
-	novatempus(g, g->x);
+	texturation(g, g->x);
 }
