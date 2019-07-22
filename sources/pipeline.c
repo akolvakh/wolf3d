@@ -1,6 +1,3 @@
-
-
-
 #include "wolf3d.h"
 
 void	render_geometry(t_dataset *data)
@@ -19,9 +16,7 @@ void	render_geometry(t_dataset *data)
 
 void	render_player(t_dataset *data)
 {
-	int num;
-
-	num = 600;
+	data->coof = 600;
 	data->wep_right = mlx_xpm_file_to_image(data->mlx, "./textures/sword_right.xpm",
 			&(data->wep_right_w), &(data->wep_right_h));
 	data->img_wep_right = (int*)mlx_get_data_addr(data->wep_right, &(data->wep_right_bpp),
@@ -30,15 +25,15 @@ void	render_player(t_dataset *data)
 			&(data->wep_left_w), &(data->wep_left_h));
 	data->img_wep_left = (int*)mlx_get_data_addr(data->wep_left, &(data->wep_left_bpp),
 			&(data->wep_left_sl), &(data->wep_left_end));
-	if (data->upkey == 1 || data->downkey == 1)
+	if (data->control_up == 1 || data->control_down == 1)
 	{
-		while (num < 650)
-			num += 25;
-		while (num > 650)
-			num -= 25;
+		while (data->coof < 650)
+			data->coof += 25;
+		while (data->coof > 650)
+			data->coof -= 25;
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->wep_right, 1200, num);
-	mlx_put_image_to_window(data->mlx, data->win, data->wep_left, 10, num);
+	mlx_put_image_to_window(data->mlx, data->win, data->wep_right, 1200, data->coof);
+	mlx_put_image_to_window(data->mlx, data->win, data->wep_left, 10, data->coof);
 }
 
 void	render_interface(t_dataset *data)
@@ -76,9 +71,7 @@ void	display(t_dataset *data)
 	if (!(data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Wolf3D")))
 		sys_error(WIN);
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	//init_dataset(*data);
 	rendering(data);
 	mlx_loop_hook(data->mlx, key_controllers, data);
 	mlx_loop(data->mlx);
-
 }

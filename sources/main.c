@@ -1,11 +1,7 @@
 
-
-
-
-
 #include "wolf3d.h"
 
-int				main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_dataset *data;
 

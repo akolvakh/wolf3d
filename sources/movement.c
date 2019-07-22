@@ -11,7 +11,7 @@ void	movement_up(t_dataset *data)
 
 	x = (int)(data->posx + data->dirx * data->movespeed);
 	y = (int)(data->posy + data->diry * data->movespeed);
-	if (data->upkey == 1 && data->downkey == 0)
+	if (data->control_up == 1 && data->control_down == 0)
 	{
 		if (data->worldmap[x][y] == '0')
 		{
@@ -30,7 +30,7 @@ void	movement_down(t_dataset *data)
 
 	x = (int)(data->posx - data->dirx * data->movespeed);
 	y = (int)(data->posy - data->diry * data->movespeed);
-	if (data->downkey == 1 & data->upkey == 0)
+	if (data->control_down == 1 & data->control_up == 0)
 	{
 		if (data->worldmap[x][y] == '0')
 		{
@@ -44,7 +44,7 @@ void	movement_down(t_dataset *data)
 
 void	movement_right(t_dataset *data)
 {
-	if (data->rightkey == 1 && data->leftkey == 0)
+	if (data->control_right == 1 && data->control_left == 0)
 	{
 		data->olddirx = data->dirx;
 		data->dirx = data->dirx * cos(-data->rotspeed) - data->diry * sin(-data->rotspeed);
@@ -61,7 +61,7 @@ void	movement_right(t_dataset *data)
 
 void	movement_left(t_dataset *data)
 {
-	if (data->leftkey == 1 && data->rightkey == 0)
+	if (data->control_left == 1 && data->control_right == 0)
 	{
 		data->olddirx = data->dirx;
 		data->dirx = data->dirx * cos(data->rotspeed) - data->diry * sin(data->rotspeed);

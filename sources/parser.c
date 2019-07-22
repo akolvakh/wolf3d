@@ -1,7 +1,7 @@
-
+//тут цикл и вертушку по записи сразу в нужный буфер?
+//(писать сразу значения сюда и в этот буфер?)
 
 #include "wolf3d.h"
-
 
 int		    count_words(const char *s, char c)
 {
@@ -56,8 +56,8 @@ int         parser(t_dataset *data)
 		data->a = -1;
 		free(data->tmp);
 		data->tmp = ft_strsplit(data->buff, ' ');
-		while (data->tmp[++data->a]) //(писать сразу значения сюда и в этот буфер?)
-		{//тут цикл и вертушку по записи сразу в нужный буфер?
+		while (data->tmp[++data->a])
+		{
 			data->dot[data->cnt].x = data->line;
 			data->dot[data->cnt].y = data->a;
 			data->dot[data->cnt].z = ft_atoi(data->tmp[data->a]);

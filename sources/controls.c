@@ -2,28 +2,28 @@
 
 int		key_push(int key, t_dataset *data)
 {
-	if (key == 126 || key == 13)
-		data->upkey = 1;
-	else if (key == 125 || key == 1)
-		data->downkey = 1;
-	else if (key == 123 || key == 0)
-		data->leftkey = 1;
-	else if (key == 124 || key == 2)
-		data->rightkey = 1;
+	if (key == UPKEY || key == W)
+		data->control_up = 1;
+	else if (key == DOWNKEY || key == S)
+		data->control_down = 1;
+	else if (key == LEFTKEY || key == A)
+		data->control_left = 1;
+	else if (key == RIGHTKEY || key == D)
+		data->control_right = 1;
 	key_hendler(key, data);
 	return (0);
 }
 
 int		key_pressed(int key, t_dataset *data)
 {
-	if (key == 126 || key == 13)
-		data->upkey = 0;
-	else if (key == 125 || key == 1)
-		data->downkey = 0;
-	else if (key == 123 || key == 0)
-		data->leftkey = 0;
-	else if (key == 124 || key == 2)
-		data->rightkey = 0;
+	if (key == UPKEY || key == W)
+		data->control_up = 0;
+	else if (key == DOWNKEY || key == S)
+		data->control_down = 0;
+	else if (key == LEFTKEY || key == A)
+		data->control_left = 0;
+	else if (key == RIGHTKEY || key == D)
+		data->control_right = 0;
 	key_hendler(key, data);
 	return (0);
 }
@@ -31,15 +31,15 @@ int		key_pressed(int key, t_dataset *data)
 int		key_hendler(int key, t_dataset *data)
 {
 	(void)(data);
-	if (key == 53)
+	if (key == ESC)
 		sys_close(data);
-	else if (data->upkey == 1)
+	else if (data->control_up == 1)
 		movement_up(data);
-	else if (data->downkey == 1)
+	else if (data->control_down == 1)
 		movement_down(data);
-	else if (data->leftkey == 1)
+	else if (data->control_left == 1)
 		movement_left(data);
-	else if (data->rightkey == 1)
+	else if (data->control_right == 1)
 		movement_right(data);
 	return (0);
 }
