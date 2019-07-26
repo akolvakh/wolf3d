@@ -54,16 +54,16 @@ void	render_interface(t_dataset *ai)
 			&(ai->ceil_w), &(ai->ceil_h));
 	ai->img_ceil = (int*)mlx_get_data_addr(ai->ceil, &(ai->ceil_bpp),
 			&(ai->ceil_sl), &(ai->ceil_end));
-	ai->floor = mlx_xpm_file_to_image(ai->mlx, "./textures/floor.xpm",
+	/*ai->floor = mlx_xpm_file_to_image(ai->mlx, "./textures/floor.xpm",
 			&(ai->floor_w), &(ai->floor_h));
 	ai->img_floor = (int*)mlx_get_data_addr(ai->floor, &(ai->floor_bpp),
-			&(ai->floor_sl), &(ai->floor_end));
+			&(ai->floor_sl), &(ai->floor_end));*/
 	ai->menu = mlx_xpm_file_to_image(ai->mlx, "./textures/gui.xpm",
 			&(ai->menu_w), &(ai->menu_h));
 	ai->img_menu = (int*)mlx_get_data_addr(ai->menu, &(ai->menu_bpp),
 			&(ai->menu_sl), &(ai->menu_end));
 	mlx_put_image_to_window(ai->mlx, ai->win, ai->ceil, 0, 0);
-	mlx_put_image_to_window(ai->mlx, ai->win, ai->floor, 0, 400);
+	//mlx_put_image_to_window(ai->mlx, ai->win, ai->floor, 0, 400);
 	mlx_put_image_to_window(ai->mlx, ai->win, ai->img, 0, 0);
 	mlx_put_image_to_window(ai->mlx, ai->win, ai->menu, 0, 0);
 }

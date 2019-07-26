@@ -15,16 +15,21 @@
 unsigned int	colormagic(int i, double x, double y)
 {
 	unsigned int	color;
-	double			magic;
-	double			i2;
-	t_dataset		ai;
-
-	magic = sqrt(x * x + y * y);
-	i2 = i + 1 - (log(2) / magic) / log(2);
-	ai.chan[0] = (unsigned char)(sin(0.026 * i2 + 4) * 230 + 25);
-	ai.chan[1] = (unsigned char)(sin(0.023 * i2 + 2) * 230 + 25);
-	ai.chan[2] = (unsigned char)(sin(0.01 * i2 + 1) * 230 + 25);
-	color = (ai.chan[0] << 16) + (ai.chan[1] << 8) + (ai.chan[2] + 255);
+	// double			magic;
+	// double			i2;
+	// t_dataset		ai;
+	if (x == 100000000000000)
+	x = 1;
+	if (y == 100000000000000)
+	y = 1;
+	if (i == 1000000)
+	i = 1;
+	// magic = sqrt(x * x + y * y);
+	// i2 = i + 1 - (log(2) / magic) / log(2);
+	// ai.chan[0] = (unsigned char)(sin(0.026 * i2 + 4) * 230 + 25);
+	// ai.chan[1] = (unsigned char)(sin(0.023 * i2 + 2) * 230 + 25);
+	// ai.chan[2] = (unsigned char)(sin(0.01 * i2 + 1) * 230 + 25);
+	color = 0xFF00FF;
 	return (color);
 }
 
