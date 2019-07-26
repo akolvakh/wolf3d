@@ -93,7 +93,8 @@ int	main(int argc, char **argv)
 
 		init_level(ai);
 		validate_level(ai);
-		init_textures(ai);
 		rdr_display(ai);
+		init_textures(ai);//in render? or in another place?
+
 	}
 }
