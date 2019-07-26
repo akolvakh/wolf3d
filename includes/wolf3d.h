@@ -156,6 +156,10 @@ typedef struct		s_dataset
 	int				*img_wep_right;
 	int				*img_menu;
 
+
+	unsigned long texture_buf[8][TEX_WDT * TEX_HGT]; 
+	unsigned long buffer [HGT][WDT];
+
 	void			*tx0;
 	int				*img_tx0;
 	int				tx0_sl;
