@@ -29,6 +29,7 @@ int	main(int argc, char **argv)
 			sys_error(MAP);
 		close(ai->fd);
 		init_level(ai);
+		validate_level(ai);
 		display(ai);
 	}
 }

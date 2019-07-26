@@ -67,17 +67,50 @@ void	init_level(t_dataset *ai)//leaks
 			k++;
 			free(ptr);
 		}
-		ai->worldmap[i][j+1] = '\0';
+		//ai->worldmap[i][j+1] = '\0';//
+		/*if(i == 0 || i == ai->row)
+		{
+			j = 0;
+			while (ai->worldmap[i][j])
+			{
+				if (ai->worldmap[i][j] == '0')
+					sys_error(MAP);
+				j++;
+			}
+		}
+		ft_putnbr(j);
+		if( ai->worldmap[i][0] == '0' || ai->worldmap[i][j - 1] == '0')
+			sys_error(MAP);
+			*/
 		i++;
 	}
-	/*ft_putnbr(i);
-	ft_putnbr(j);
-	if (ai->worldmap[0][0] == 0
-	|| ai->worldmap[i][0] == 0
-	|| ai->worldmap[0][j] == 0
-	|| ai->worldmap[i][j] == 0)
-		sys_error(MAP);*/
 }
+
+void	validate_level(t_dataset *ai)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while(i <= ai->row)
+	{
+		if(i == 0 || i == ai->row)
+		{
+			j = 0;
+			while (ai->worldmap[i][j])
+			{
+				if (ai->worldmap[i][j] == '0')
+					sys_error(MAP);
+				j++;
+			}
+		}
+		if( ai->worldmap[i][0] == '0' || ai->worldmap[i][j - 1] == '0')
+			sys_error(MAP);
+		i++;
+	}
+}
+
+
 
 void	init_color(t_dataset *ai)
 {
