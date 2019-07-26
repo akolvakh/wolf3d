@@ -10,51 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+//display plane
+//point of view
+//ray
+//distance
+//
+
+
 #include "wolf3d.h"
-
-unsigned int	colormagic(int i, double x, double y)
-{
-	unsigned int	color;
-	// double			magic;
-	// double			i2;
-	// t_dataset		ai;
-	if (x == 100000000000000)
-	x = 1;
-	if (y == 100000000000000)
-	y = 1;
-	if (i == 1000000)
-	i = 1;
-	// magic = sqrt(x * x + y * y);
-	// i2 = i + 1 - (log(2) / magic) / log(2);
-	// ai.chan[0] = (unsigned char)(sin(0.026 * i2 + 4) * 230 + 25);
-	// ai.chan[1] = (unsigned char)(sin(0.023 * i2 + 2) * 230 + 25);
-	// ai.chan[2] = (unsigned char)(sin(0.01 * i2 + 1) * 230 + 25);
-	color = 0xFF00FF;
-	return (color);
-}
-
-void			texturation(t_dataset *ai, int x)
-{
-	int		initioy;
-	int		mori;
-	int		initio;
-
-	mori = ai->drawend;
-	if (mori > HGT)
-		mori = HGT - 1;
-	initioy = ai->drawstart;
-	if (initioy < 0)
-		initioy = 0;
-	initio = -1;
-	while (++initio < (HGT / 2))
-		ai->img_wall[x + (initio * ai->wall_sl / 4)] = 0xC00000AA;
-	while (++initioy < mori)
-		ai->img_wall[x + (initioy * ai->wall_sl / 4)] = colormagic(ai->
-				color, x, initioy);
-	initio = mori - 1;
-	while (++initio < (HGT - 1))
-		ai->img_wall[x + (initio * ai->wall_sl / 4)] = 0xC00000AA;
-}
 
 void			ray(t_dataset *g) //stage 1 - function, ai, different structures, same(one) structure, shaders, buffers, etc.
 {
@@ -125,7 +88,29 @@ void			drawstuff3(t_dataset *g) //stage 3
 	g->drawstart = -(g->lineheight) / 2 + g->h / 2;
 }
 
-void			visualization(t_dataset *g) //stage 4
+void			texturation(t_dataset *ai, int x) // в этом блоке цепляем цвет на стены. И тут нужно будет цеплять текстуры, текстуру на стены. Это - ключевой блок
+{
+	int		initioy;
+	int		mori;
+	int		initio;
+
+	mori = ai->drawend;
+	if (mori > HGT)
+		mori = HGT - 1;
+	initioy = ai->drawstart;
+	if (initioy < 0)
+		initioy = 0;
+	initio = -1;
+	while (++initio < (HGT / 2))
+		ai->img_wall[x + (initio * ai->wall_sl / 4)] = 0xC00000AA;
+	while (++initioy < mori)
+		ai->img_wall[x + (initioy * ai->wall_sl / 4)] = 0xFF00FF; //color staff
+	initio = mori - 1;
+	while (++initio < (HGT - 1))
+		ai->img_wall[x + (initio * ai->wall_sl / 4)] = 0xC00000AA;
+}
+
+void			visualization(t_dataset *g) //stage 4 - цвет и текстуры
 {
 	g->drawstart = -(g->lineheight) / 2 + g->h / 2;
 	if (g->drawstart < 0)

@@ -12,7 +12,7 @@
 
 #include "wolf3d.h"
 
-int		key_push(int key, t_dataset *ai)
+int		key_push(int key, t_dataset *ai)//связать и оптимизировать
 {
 	if (key == UP_ARROW || key == W)
 		ai->control_up = 1;
@@ -56,7 +56,7 @@ int		key_hendler(int key, t_dataset *ai)
 	return (0);
 }
 
-int		key_controllers(t_dataset *ai)
+int		key_controllers(t_dataset *ai)//сравнить с кодом. Етс
 {
 	mlx_hook(ai->win, 2, 0, key_push, ai);
 	mlx_hook(ai->win, 3, 0, key_pressed, ai);

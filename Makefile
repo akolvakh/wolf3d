@@ -36,7 +36,7 @@ core.c\
 initialization.c\
 system.c\
 movement.c\
-pipeline.c\
+render.c\
 controls.c\
 parser.c
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))

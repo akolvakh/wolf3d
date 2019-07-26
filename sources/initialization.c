@@ -38,85 +38,17 @@ t_dataset	*init_dataset(char *argv)
 	ai->a = 0;
 	ai->cnt = 0;
 	ai->line = 0;
+	ai->coof = 600;
 	ai->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * ai->amount);
 	return (ai);
 }
-
-void	init_level(t_dataset *ai)//leaks
-{
-	int i;
-	int k;
-	int j;
-	char numb;
-	char *ptr;
-	
-	i = -1;
-	k = 0;
-	ai->worldmap = (char **)ft_memalloc(sizeof(char) * ai->l * ai->row);
-	while(++i <= ai->row)
-		ai->worldmap[i] = (char *)ft_memalloc(sizeof(char*)*ai->l);
-	i = 0;
-	while(i <= ai->row)
-	{
-		j = -1;
-		while(++j < ai->l)
-		{
-			ptr = ft_itoa(ai->dot[k].z);
-			numb = *ptr;
-			ai->worldmap[i][j] = numb;
-			k++;
-			free(ptr);
-		}
-		//ai->worldmap[i][j+1] = '\0';//
-		/*if(i == 0 || i == ai->row)
-		{
-			j = 0;
-			while (ai->worldmap[i][j])
-			{
-				if (ai->worldmap[i][j] == '0')
-					sys_error(MAP);
-				j++;
-			}
-		}
-		ft_putnbr(j);
-		if( ai->worldmap[i][0] == '0' || ai->worldmap[i][j - 1] == '0')
-			sys_error(MAP);
-			*/
-		i++;
-	}
-}
-
-void	validate_level(t_dataset *ai)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while(i <= ai->row)
-	{
-		if(i == 0 || i == ai->row)
-		{
-			j = 0;
-			while (ai->worldmap[i][j])
-			{
-				if (ai->worldmap[i][j] == '0')
-					sys_error(MAP);
-				j++;
-			}
-		}
-		if( ai->worldmap[i][0] == '0' || ai->worldmap[i][j - 1] == '0')
-			sys_error(MAP);
-		i++;
-	}
-}
-
-
 
 void	init_color(t_dataset *ai)
 {
 	char color;
 
-	color = ai->worldmap[ai->mapx][ai->mapy];
+	color = ai->worldmap[ai->mapx][ai->mapy];//менять цвет в зависимости от текстуры. То есть, брать ее, считывать, записывать в файл, проходиться по нему и записывать его.
+	//вектор записать по формуле х * у и дальше искать нужную координату, етс. 
 	if (color == '1')
 		ai->color = PINK;
 	else if (color == '2')
