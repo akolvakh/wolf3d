@@ -19,6 +19,19 @@
 
 #include "wolf3d.h"
 
+void	draw_dot(t_dataset *ai, int x, int y, int color)
+{
+	if (!(x < 0 || y < 0 || x >= (int)WDT || y >= (int)HGT))
+		ai->img_wall[x + y * (int)WDT] = color;
+}
+
+void	draw_flour(t_dataset *ai, int x)
+{
+	ai->drawstart--;
+	while (++ai->drawstart < HGT)
+		draw_dot(ai, x, ai->drawstart, 0x4f4f4f);
+}
+
 void			ray(t_dataset *g) //stage 1 - function, ai, different structures, same(one) structure, shaders, buffers, etc.
 {
 	g->camerax = 2 * g->x / (double)g->w - 1;
@@ -89,74 +102,37 @@ void			drawstuff3(t_dataset *g) //stage 3 // код просто с тутори
 	g->drawstart = -(g->lineheight) / 2 + g->h / 2;
 }
 
-void			texturation(t_dataset *ai, int x) // в этом блоке цепляем цвет на стены. И тут нужно будет цеплять текстуры, текстуру на стены. Это - ключевой блок
+void			texturation(t_dataset *ai, int x) // (drawing) в этом блоке цепляем цвет на стены. И тут нужно будет цеплять текстуры, текстуру на стены. Это - ключевой блок
 {
-	/*int		initioy; //
-	int		mori; // 
-	int		initio; //
+      int texnum = ai->worldmap[ai->mapx][ai->mapy] - 1; //1 subtracted from it so that texture 0 can be used!
+      double wallx; //where exactly the wall was hit
+      if (ai->side == 0) wallx = ai->posy + ai->perpwalldist * ai->raydiry;
+      else           wallx = ai->posx + ai->perpwalldist * ai->raydirx;
+      wallx -= floor((wallx));
+      int texx = (wallx * TEX_WDT);
+      if(ai->side == 0 && ai->raydirx > 0) texx = TEX_WDT - texx - 1;
+      if(ai->side == 1 && ai->raydiry < 0) texx = TEX_WDT - texx - 1;
 
-	mori = ai->drawend;
-	if (mori > HGT)
-		mori = HGT - 1;
-	initioy = ai->drawstart;
-	if (initioy < 0)
-		initioy = 0;
-	initio = -1;
-	while (++initio < (HGT / 2))
-		ai->img_wall[x + (initio * ai->wall_sl / 4)] = 0xC00000AA;
-	while (++initioy < mori)
-		ai->img_wall[x + (initioy * ai->wall_sl / 4)] = 0xFF00FF; //color staff
-	initio = mori - 1;
-	while (++initio < (HGT - 1))
-		ai->img_wall[x + (initio * ai->wall_sl / 4)] = 0xC00000AA;*/
+			unsigned long color;
 
-
-  	//generate some textures
-  	for(int x = 0; x <TEX_WDT; x++)
-  	for(int y = 0; y < TEX_HGT; y++)
-  	{
-		int xorcolor = (x * 256 / TEX_WDT) ^ (y * 256 / TEX_HGT);
-		//int xcolor = x * 256 / TEX_WDT;
-		int ycolor = y * 256 / TEX_HGT;
-		int xycolor = y * 128 / TEX_HGT + x * 128 / TEX_WDT;
-		ai->texture_buf[0][TEX_WDT * y + x] = 65536 * 254 * (x != y && x != TEX_WDT - y); //flat red texture with black cross
-		ai->texture_buf[1][TEX_WDT * y + x] = xycolor + 256 * xycolor + 65536 * xycolor; //sloped greyscale
-		ai->texture_buf[2][TEX_WDT * y + x] = 256 * xycolor + 65536 * xycolor; //sloped yellow gradient
-		ai->texture_buf[3][TEX_WDT * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale
-		ai->texture_buf[4][TEX_WDT * y + x] = 256 * xorcolor; //xor green
-		ai->texture_buf[5][TEX_WDT * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks
-		ai->texture_buf[6][TEX_WDT * y + x] = 65536 * ycolor; //red gradient
-		ai->texture_buf[7][TEX_WDT * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture
-  	}
-
-
-
-
-      //texturing calculations
-      int texNum = ai->worldmap[ai->mapx][ai->mapy] - 1; //1 subtracted from it so that texture 0 can be used!
-
-      //calculate value of wallX
-      double wallX; //where exactly the wall was hit
-      if (ai->side == 0) wallX = ai->posy + ai->perpwalldist * ai->raydiry;
-      else           wallX = ai->posx + ai->perpwalldist * ai->raydirx;
-      wallX -= floor((wallX));
-
-      //x coordinate on the texture
-      int texX = (int)(wallX * (double)(TEX_WDT));
-      if(ai->side == 0 && ai->raydirx > 0) texX = TEX_WDT - texX - 1;
-      if(ai->side == 1 && ai->raydiry < 0) texX = TEX_WDT - texX - 1;
-
-	 for(int y = ai->drawstart; y<ai->drawend; y++)
+	 	for(int y = ai->drawstart; y<ai->drawend; y++)
      {
         int d = y * 256 - ai->h * 128 + ai->lineheight * 128;  //256 and 128 factors to avoid floats
-        // TODO: avoid the division to speed this up
-        int texY = ((d * TEX_HGT) / ai->lineheight) / 256;
-        unsigned long color = ai->texture_buf[texNum][TEX_HGT * texY + texX];
-        //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-        if(ai->side == 1) color = (color >> 1) & 8355711;
-        ai->buffer[y][x] = color;
-      }
-    }
+        int texy = ((d * TEX_HGT) / ai->lineheight) / 256;
+
+if (ai->side == 1 && ai->raydiry < 0)
+	color = (ai->texture[(texnum + ai->texture_mod) % 8]->img_ptr[64 * texy + texx] >> 1) & 0x7F7F7F;
+if (ai->side == 1 && ai->raydiry > 0)
+	color = (ai->texture[(texnum + 1 + ai->texture_mod) % 8]->img_ptr[64 * texy + texx] >> 1) & 0x7F7F7F;
+if (ai->side == 0 && ai->raydirx < 0)
+	color = ai->texture[(texnum + 2 + ai->texture_mod) % 8]->img_ptr[64 * texy + texx];
+if (ai->side == 0 && ai->raydirx > 0)
+	color = ai->texture[(texnum + 3 + ai->texture_mod) % 8]->img_ptr[64 * texy + texx];
+draw_dot(ai, x, ai->drawstart, color);
+ai->drawstart++;
+		}
+//draw_flour(ai, ai->x);
+}
 
 
 
@@ -164,7 +140,7 @@ void			texturation(t_dataset *ai, int x) // в этом блоке цепляе�
 
 
 
-void			visualization(t_dataset *g) //stage 4 - цвет и текстуры, g 
+void			visualization(t_dataset *g) //stage 4 - цвет и текстуры, g (drawline)
 {
 	g->drawstart = -(g->lineheight) / 2 + g->h / 2;
 	if (g->drawstart < 0)
@@ -172,7 +148,6 @@ void			visualization(t_dataset *g) //stage 4 - цвет и текстуры, g
 	g->drawend = g->lineheight / 2 + g->h / 2;
 	if (g->drawend >= g->h)
 		g->drawend = g->h - 1;
-	init_color(g);
 	if (g->side == 1)
 		g->color = g->color / 2;
 	texturation(g, g->x);

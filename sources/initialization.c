@@ -40,6 +40,7 @@ t_dataset	*init_dataset(char *argv)
 	ai->line = 0;
 	ai->coof = 600;
 	ai->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * ai->amount);
+	ai->texture_mod = 0;
 	return (ai);
 }
 

@@ -109,6 +109,15 @@ enum				e_moves
 	DOWN = 14
 };
 
+typedef	struct	s_texture
+{
+	void		*img;
+	int			*img_ptr;
+	int			bpp;
+	int			sl;
+	int			ending;
+}				t_texture;
+
 typedef struct		s_dot
 {
 	int				x;
@@ -124,6 +133,7 @@ typedef struct		s_dataset
 	*/
 	void			*mlx;
 	void			*win;
+
 	void			*img;
 	/*
 	**   parser
@@ -156,9 +166,11 @@ typedef struct		s_dataset
 	int				*img_wep_right;
 	int				*img_menu;
 
+	int				wall_sl;
+	int				wall_end;
+	int				wall_bpp;
 
-	unsigned long texture_buf[8][TEX_WDT * TEX_HGT]; 
-	unsigned long buffer [HGT][WDT];
+		int			texture_mod;
 
 	void			*tx0;
 	int				*img_tx0;
@@ -225,9 +237,11 @@ typedef struct		s_dataset
 	int				tx7_h;
 
 
-	int				wall_sl;
-	int				wall_end;
-	int				wall_bpp;
+	//int				wall_sl;
+	//int				wall_end;
+	//int				wall_bpp;
+
+
 	int				ceil_sl;
 	int				ceil_end;
 	int				ceil_bpp;
@@ -307,9 +321,15 @@ typedef struct		s_dataset
 	*/
 	unsigned char	chan[3];
 
-
+	t_texture	**texture;
 
 }					t_dataset;
+
+
+
+
+void	draw_dot(t_dataset *ai, int x, int y, int color);
+
 
 void				init_level(t_dataset *ai);
 void				init_textures(t_dataset *ai);

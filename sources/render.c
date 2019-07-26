@@ -47,8 +47,7 @@ void	rdr_player(t_dataset *ai)
 		while (ai->coof > 650)
 			ai->coof -= 25;
 	}
-	mlx_put_image_to_window(ai->mlx, ai->win, ai->wep_right, 1200, ai->coof);
-	mlx_put_image_to_window(ai->mlx, ai->win, ai->wep_left, 10, ai->coof);
+
 }
 
 void	rdr_interface(t_dataset *ai)
@@ -71,10 +70,6 @@ void	rdr_interface(t_dataset *ai)
 	if(!(ai->img_menu = (int*)mlx_get_data_addr(ai->menu, &(ai->menu_bpp),
 			&(ai->menu_sl), &(ai->menu_end))))
 			sys_error(IMG_PTR);
-	mlx_put_image_to_window(ai->mlx, ai->win, ai->ceil, 0, 0);
-	mlx_put_image_to_window(ai->mlx, ai->win, ai->floor, 0, 400);
-	mlx_put_image_to_window(ai->mlx, ai->win, ai->img, 0, 0);
-	mlx_put_image_to_window(ai->mlx, ai->win, ai->menu, 0, 0);
 }
 
 void	rdr_pipeline(t_dataset *ai)
@@ -85,6 +80,12 @@ void	rdr_pipeline(t_dataset *ai)
 	rdr_geometry(ai);
 	rdr_interface(ai);
 	rdr_player(ai);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->ceil, 0, 0);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->floor, 0, 400);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->img, 0, 0);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->menu, 0, 0);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->wep_right, 1200, ai->coof);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->wep_left, 10, ai->coof);
 }
 
 void	rdr_display(t_dataset *ai)
@@ -95,7 +96,10 @@ void	rdr_display(t_dataset *ai)
 		sys_error(WIN);
 	if (!(ai->img = mlx_new_image(ai->mlx, WDT, HGT)))
 		sys_error(IMG);
+	
+	init_textures(ai);//in render? or in another place?
 	rdr_pipeline(ai);
+
 	mlx_loop_hook(ai->mlx, key_controllers, ai);
 	mlx_loop(ai->mlx);
 }

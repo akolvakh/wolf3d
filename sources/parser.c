@@ -97,6 +97,9 @@ void	init_level(t_dataset *ai)
 	ai->worldmap = (char **)ft_memalloc(sizeof(char) * ai->l * ai->row);
 	while(++i <= ai->row)
 		ai->worldmap[i] = (char *)ft_memalloc(sizeof(char*)*ai->l);
+	
+
+
 	i = 0;
 	while(i <= ai->row)
 	{
