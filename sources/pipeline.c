@@ -12,78 +12,78 @@
 
 #include "wolf3d.h"
 
-void	render_geometry(t_dataset *data)
+void	render_geometry(t_dataset *ai)
 {
-	data->img_wall = (int*)mlx_get_data_addr(data->img, &(data->wall_bpp),
-		&(data->wall_sl), &(data->wall_end));
-	data->x = -1;
-	while (++data->x < data->w)
+	ai->img_wall = (int*)mlx_get_data_addr(ai->img, &(ai->wall_bpp),
+		&(ai->wall_sl), &(ai->wall_end));
+	ai->x = -1;
+	while (++ai->x < ai->w)
 	{
-		ray(data);//change
-		drawstuff2(data);//change
-		drawstuff3(data);//change
-		visualization(data);//change
+		ray(ai);//change
+		drawstuff2(ai);//change
+		drawstuff3(ai);//change
+		visualization(ai);//change
 	}
 }
 
-void	render_player(t_dataset *data)
+void	render_player(t_dataset *ai)
 {
-	data->coof = 600;
-	data->wep_right = mlx_xpm_file_to_image(data->mlx, "./textures/sword_right.xpm",
-			&(data->wep_right_w), &(data->wep_right_h));
-	data->img_wep_right = (int*)mlx_get_data_addr(data->wep_right, &(data->wep_right_bpp),
-			&(data->wep_right_sl), &(data->wep_right_end));
-	data->wep_left = mlx_xpm_file_to_image(data->mlx, "./textures/sword_left.xpm",
-			&(data->wep_left_w), &(data->wep_left_h));
-	data->img_wep_left = (int*)mlx_get_data_addr(data->wep_left, &(data->wep_left_bpp),
-			&(data->wep_left_sl), &(data->wep_left_end));
-	if (data->control_up == 1 || data->control_down == 1)
+	ai->coof = 600;
+	ai->wep_right = mlx_xpm_file_to_image(ai->mlx, "./textures/sword_right.xpm",
+			&(ai->wep_right_w), &(ai->wep_right_h));
+	ai->img_wep_right = (int*)mlx_get_data_addr(ai->wep_right, &(ai->wep_right_bpp),
+			&(ai->wep_right_sl), &(ai->wep_right_end));
+	ai->wep_left = mlx_xpm_file_to_image(ai->mlx, "./textures/sword_left.xpm",
+			&(ai->wep_left_w), &(ai->wep_left_h));
+	ai->img_wep_left = (int*)mlx_get_data_addr(ai->wep_left, &(ai->wep_left_bpp),
+			&(ai->wep_left_sl), &(ai->wep_left_end));
+	if (ai->control_up == 1 || ai->control_down == 1)
 	{
-		while (data->coof < 650)
-			data->coof += 25;
-		while (data->coof > 650)
-			data->coof -= 25;
+		while (ai->coof < 650)
+			ai->coof += 25;
+		while (ai->coof > 650)
+			ai->coof -= 25;
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->wep_right, 1200, data->coof);
-	mlx_put_image_to_window(data->mlx, data->win, data->wep_left, 10, data->coof);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->wep_right, 1200, ai->coof);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->wep_left, 10, ai->coof);
 }
 
-void	render_interface(t_dataset *data)
+void	render_interface(t_dataset *ai)
 {
-	data->ceil = mlx_xpm_file_to_image(data->mlx, "./textures/ceil.xpm",
-			&(data->ceil_w), &(data->ceil_h));
-	data->img_ceil = (int*)mlx_get_data_addr(data->ceil, &(data->ceil_bpp),
-			&(data->ceil_sl), &(data->ceil_end));
-	data->floor = mlx_xpm_file_to_image(data->mlx, "./textures/floor.xpm",
-			&(data->floor_w), &(data->floor_h));
-	data->img_floor = (int*)mlx_get_data_addr(data->floor, &(data->floor_bpp),
-			&(data->floor_sl), &(data->floor_end));
-	data->menu = mlx_xpm_file_to_image(data->mlx, "./textures/gui.xpm",
-			&(data->menu_w), &(data->menu_h));
-	data->img_menu = (int*)mlx_get_data_addr(data->menu, &(data->menu_bpp),
-			&(data->menu_sl), &(data->menu_end));
-	mlx_put_image_to_window(data->mlx, data->win, data->ceil, 0, 0);
-	mlx_put_image_to_window(data->mlx, data->win, data->floor, 0, 400);
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-	mlx_put_image_to_window(data->mlx, data->win, data->menu, 0, 0);
+	ai->ceil = mlx_xpm_file_to_image(ai->mlx, "./textures/ceil.xpm",
+			&(ai->ceil_w), &(ai->ceil_h));
+	ai->img_ceil = (int*)mlx_get_data_addr(ai->ceil, &(ai->ceil_bpp),
+			&(ai->ceil_sl), &(ai->ceil_end));
+	ai->floor = mlx_xpm_file_to_image(ai->mlx, "./textures/floor.xpm",
+			&(ai->floor_w), &(ai->floor_h));
+	ai->img_floor = (int*)mlx_get_data_addr(ai->floor, &(ai->floor_bpp),
+			&(ai->floor_sl), &(ai->floor_end));
+	ai->menu = mlx_xpm_file_to_image(ai->mlx, "./textures/gui.xpm",
+			&(ai->menu_w), &(ai->menu_h));
+	ai->img_menu = (int*)mlx_get_data_addr(ai->menu, &(ai->menu_bpp),
+			&(ai->menu_sl), &(ai->menu_end));
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->ceil, 0, 0);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->floor, 0, 400);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->img, 0, 0);
+	mlx_put_image_to_window(ai->mlx, ai->win, ai->menu, 0, 0);
 }
 
-void	rendering(t_dataset *data)
+void	rendering(t_dataset *ai)
 {
-	mlx_destroy_image(data->mlx, data->img);
-	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	render_geometry(data);
-	render_interface(data);
-	render_player(data);
+	mlx_destroy_image(ai->mlx, ai->img);
+	ai->img = mlx_new_image(ai->mlx, WDT, HGT);
+	render_geometry(ai);
+	render_interface(ai);
+	render_player(ai);
 }
 
-void	display(t_dataset *data)
+void	display(t_dataset *ai)
 {
-	data->mlx = mlx_init();
-	if (!(data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Wolf3D")))
+	ai->mlx = mlx_init();
+	if (!(ai->win = mlx_new_window(ai->mlx, WDT, HGT, "Wolf3D")))
 		sys_error(WIN);
-	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	rendering(data);
-	mlx_loop_hook(data->mlx, key_controllers, data);
-	mlx_loop(data->mlx);
+	ai->img = mlx_new_image(ai->mlx, WDT, HGT);
+	rendering(ai);
+	mlx_loop_hook(ai->mlx, key_controllers, ai);
+	mlx_loop(ai->mlx);
 }

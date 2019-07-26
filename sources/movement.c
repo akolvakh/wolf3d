@@ -16,74 +16,74 @@
 
 #include "wolf3d.h"
 
-void	movement_up(t_dataset *data)
+void	movement_up(t_dataset *ai)
 {
 	int x;
 	int y;
 
-	x = (int)(data->posx + data->dirx * data->movespeed);
-	y = (int)(data->posy + data->diry * data->movespeed);
-	if (data->control_up == 1 && data->control_down == 0)
+	x = (int)(ai->posx + ai->dirx * ai->movespeed);
+	y = (int)(ai->posy + ai->diry * ai->movespeed);
+	if (ai->control_up == 1 && ai->control_down == 0)
 	{
-		if (data->worldmap[x][y] == '0')
+		if (ai->worldmap[x][y] == '0')
 		{
-			data->posx += data->dirx * data->movespeed;
-			data->posy += data->diry * data->movespeed;
-			rendering(data);
+			ai->posx += ai->dirx * ai->movespeed;
+			ai->posy += ai->diry * ai->movespeed;
+			rendering(ai);
 			sys_message(UP);
 		}
 	}
 }
 
-void	movement_down(t_dataset *data)
+void	movement_down(t_dataset *ai)
 {
 	int x;
 	int y;
 
-	x = (int)(data->posx - data->dirx * data->movespeed);
-	y = (int)(data->posy - data->diry * data->movespeed);
-	if (data->control_down == 1 & data->control_up == 0)
+	x = (int)(ai->posx - ai->dirx * ai->movespeed);
+	y = (int)(ai->posy - ai->diry * ai->movespeed);
+	if (ai->control_down == 1 & ai->control_up == 0)
 	{
-		if (data->worldmap[x][y] == '0')
+		if (ai->worldmap[x][y] == '0')
 		{
-			data->posx -= data->dirx * data->movespeed;
-			data->posy -= data->diry * data->movespeed;
-			rendering(data);
+			ai->posx -= ai->dirx * ai->movespeed;
+			ai->posy -= ai->diry * ai->movespeed;
+			rendering(ai);
 			sys_message(DOWN);
 		}
 	}
 }
 
-void	movement_right(t_dataset *data)
+void	movement_right(t_dataset *ai)
 {
-	if (data->control_right == 1 && data->control_left == 0)
+	if (ai->control_right == 1 && ai->control_left == 0)
 	{
-		data->olddirx = data->dirx;
-		data->dirx = data->dirx * cos(-data->rotspeed) - data->diry * sin(-data->rotspeed);
-		data->diry = data->olddirx * sin(-data->rotspeed) + data->diry * cos(-data->rotspeed);
-		data->oldplanex = data->planex;
-		data->planex = data->planex * cos(-data->rotspeed) -
-			data->planey * sin(-data->rotspeed);
-		data->planey = data->oldplanex * sin(-data->rotspeed) +
-			data->planey * cos(-data->rotspeed);
-		rendering(data);
+		ai->olddirx = ai->dirx;
+		ai->dirx = ai->dirx * cos(-ai->rotspeed) - ai->diry * sin(-ai->rotspeed);
+		ai->diry = ai->olddirx * sin(-ai->rotspeed) + ai->diry * cos(-ai->rotspeed);
+		ai->oldplanex = ai->planex;
+		ai->planex = ai->planex * cos(-ai->rotspeed) -
+			ai->planey * sin(-ai->rotspeed);
+		ai->planey = ai->oldplanex * sin(-ai->rotspeed) +
+			ai->planey * cos(-ai->rotspeed);
+		rendering(ai);
 		sys_message(RIGHT);
 	}
 }
 
-void	movement_left(t_dataset *data)
+void	movement_left(t_dataset *ai)
 {
-	if (data->control_left == 1 && data->control_right == 0)
+	if (ai->control_left == 1 && ai->control_right == 0)
 	{
-		data->olddirx = data->dirx;
-		data->dirx = data->dirx * cos(data->rotspeed) - data->diry * sin(data->rotspeed);
-		data->diry = data->olddirx * sin(data->rotspeed) +
-			data->diry * cos(data->rotspeed);
-		data->oldplanex = data->planex;
-		data->planex = data->planex * cos(data->rotspeed) - data->planey * sin(data->rotspeed);
-		data->planey = data->oldplanex * sin(data->rotspeed) +
-			data->planey * cos(data->rotspeed);
-		rendering(data);
+		ai->olddirx = ai->dirx;
+		ai->dirx = ai->dirx * cos(ai->rotspeed) - ai->diry * sin(ai->rotspeed);
+		ai->diry = ai->olddirx * sin(ai->rotspeed) +
+			ai->diry * cos(ai->rotspeed);
+		ai->oldplanex = ai->planex;
+		ai->planex = ai->planex * cos(ai->rotspeed) - ai->planey * sin(ai->rotspeed);
+		ai->planey = ai->oldplanex * sin(ai->rotspeed) +
+			ai->planey * cos(ai->rotspeed);
+		rendering(ai);
 		sys_message(LEFT);
 	}
 }

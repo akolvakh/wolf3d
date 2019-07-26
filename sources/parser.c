@@ -57,29 +57,29 @@ int		    count_blocks(char *argv)
 	return (i);
 }
 
-int         parser(t_dataset *data)
+int         parser(t_dataset *ai)
 {
-	data->tmp = (char **)ft_memalloc(sizeof(char **));
-	while ((data->ret = get_next_line(data->fd, &data->buff)) > 0)
+	ai->tmp = (char **)ft_memalloc(sizeof(char **));
+	while ((ai->ret = get_next_line(ai->fd, &ai->buff)) > 0)
 	{
-		data->l = count_words(data->buff, ' ');
-		if (data->a != 0 && data->l != data->a)
+		ai->l = count_words(ai->buff, ' ');
+		if (ai->a != 0 && ai->l != ai->a)
 			sys_error(MAP);
-		data->a = -1;
-		free(data->tmp);
-		data->tmp = ft_strsplit(data->buff, ' ');
-		while (data->tmp[++data->a])
+		ai->a = -1;
+		free(ai->tmp);
+		ai->tmp = ft_strsplit(ai->buff, ' ');
+		while (ai->tmp[++ai->a])
 		{
-			data->dot[data->cnt].x = data->line;
-			data->dot[data->cnt].y = data->a;
-			data->dot[data->cnt].z = ft_atoi(data->tmp[data->a]);
-			data->cnt++;
-			free(data->tmp[data->a]);
+			ai->dot[ai->cnt].x = ai->line;
+			ai->dot[ai->cnt].y = ai->a;
+			ai->dot[ai->cnt].z = ft_atoi(ai->tmp[ai->a]);
+			ai->cnt++;
+			free(ai->tmp[ai->a]);
 		}
-		data->a = count_words(data->buff, ' ');
-		free(data->buff);
-		data->line++;
+		ai->a = count_words(ai->buff, ' ');
+		free(ai->buff);
+		ai->line++;
 	}
-	free(data->tmp);
-	return (data->line);
+	free(ai->tmp);
+	return (ai->line);
 }

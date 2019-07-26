@@ -17,41 +17,41 @@ unsigned int	colormagic(int i, double x, double y)
 	unsigned int	color;
 	double			magic;
 	double			i2;
-	t_dataset		data;
+	t_dataset		ai;
 
 	magic = sqrt(x * x + y * y);
 	i2 = i + 1 - (log(2) / magic) / log(2);
-	data.chan[0] = (unsigned char)(sin(0.026 * i2 + 4) * 230 + 25);
-	data.chan[1] = (unsigned char)(sin(0.023 * i2 + 2) * 230 + 25);
-	data.chan[2] = (unsigned char)(sin(0.01 * i2 + 1) * 230 + 25);
-	color = (data.chan[0] << 16) + (data.chan[1] << 8) + (data.chan[2] + 255);
+	ai.chan[0] = (unsigned char)(sin(0.026 * i2 + 4) * 230 + 25);
+	ai.chan[1] = (unsigned char)(sin(0.023 * i2 + 2) * 230 + 25);
+	ai.chan[2] = (unsigned char)(sin(0.01 * i2 + 1) * 230 + 25);
+	color = (ai.chan[0] << 16) + (ai.chan[1] << 8) + (ai.chan[2] + 255);
 	return (color);
 }
 
-void			texturation(t_dataset *data, int x)
+void			texturation(t_dataset *ai, int x)
 {
 	int		initioy;
 	int		mori;
 	int		initio;
 
-	mori = data->drawend;
-	if (mori > HEIGHT)
-		mori = HEIGHT - 1;
-	initioy = data->drawstart;
+	mori = ai->drawend;
+	if (mori > HGT)
+		mori = HGT - 1;
+	initioy = ai->drawstart;
 	if (initioy < 0)
 		initioy = 0;
 	initio = -1;
-	while (++initio < (HEIGHT / 2))
-		data->img_wall[x + (initio * data->wall_sl / 4)] = 0xC00000AA;
+	while (++initio < (HGT / 2))
+		ai->img_wall[x + (initio * ai->wall_sl / 4)] = 0xC00000AA;
 	while (++initioy < mori)
-		data->img_wall[x + (initioy * data->wall_sl / 4)] = colormagic(data->
+		ai->img_wall[x + (initioy * ai->wall_sl / 4)] = colormagic(ai->
 				color, x, initioy);
 	initio = mori - 1;
-	while (++initio < (HEIGHT - 1))
-		data->img_wall[x + (initio * data->wall_sl / 4)] = 0xC00000AA;
+	while (++initio < (HGT - 1))
+		ai->img_wall[x + (initio * ai->wall_sl / 4)] = 0xC00000AA;
 }
 
-void			ray(t_dataset *g) //stage 1 - function, data, different structures, same(one) structure, shaders, buffers, etc.
+void			ray(t_dataset *g) //stage 1 - function, ai, different structures, same(one) structure, shaders, buffers, etc.
 {
 	g->camerax = 2 * g->x / (double)g->w - 1;
 	g->rayposx = g->posx;

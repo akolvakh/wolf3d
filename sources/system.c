@@ -12,49 +12,55 @@
 
 #include "wolf3d.h"
 
-void	sys_error(int error)
+int		sys_close(t_dataset *ai)
 {
-	char *msg;
-
-	if ((error == MAP && (msg = "ERROR: invalid map\n"))
-	|| (error == MLX && (msg = "ERROR: can't initialize mlx\n"))
-	|| (error == WIN && (msg = "ERROR: can't create window\n"))
-	|| (error == VALUE && (msg = "ERROR: invalid value\n"))
-	|| (error == FILE && (msg = "ERROR: can't open file\n"))
-	|| (error == MALLOC && (msg = "ERROR: can't malloc memory\n"))
-	|| (error == INPUT && (msg = "ERROR: too much input\n"))
-	|| (error == FINISH && (msg = "MESSAGE: Exit the game\n")))
-		ft_putstr(msg);
-	//free memory
-	exit(-1);
-}
-
-void	sys_message(int message)
-{
-	char *msg;
-
-	if ((message == USAGE && (msg = "USAGE:\nControls:\nArrow Keys & WASD to Move\nEsc to Exit\nType start to begin the game\n"))
-	|| (message == START && (msg = "MESSAGE: Start the game\n"))
-	|| (message == LEFT && (msg = "MESSAGE: Left\n"))
-	|| (message == RIGHT && (msg = "MESSAGE: Right\n"))
-	|| (message == UP && (msg = "MESSAGE: Up\n"))
-	|| (message == DOWN && (msg = "MESSAGE: Down\n")))
-		ft_putstr(msg);
-}
-
-int		sys_close(t_dataset *data)
-{
-	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_window(ai->mlx, ai->win);
+	sys_free(ai);
 	sys_error(FINISH);
 	return (0);
 }
 
-void	sys_free(t_dataset *data)
+void	sys_error(int err)
+{
+	char *out;
+
+	if ((err == MAP && (out = "ERROR: invalid map\n"))
+	|| (err == MLX && (out = "ERROR: can't initialize mlx\n"))
+	|| (err == IMG && (out = "ERROR: can't create image mlx\n"))
+	|| (err == WIN && (out = "ERROR: can't create window\n"))
+	|| (err == VALUE && (out = "ERROR: invalid value\n"))
+	|| (err == IMG_PTR && (out = "ERROR: can't get image ptr\n"))
+	|| (err == FILE && (out = "ERROR: can't open file\n"))
+	|| (err == MALLOC && (out = "ERROR: can't malloc memory\n"))
+	|| (err == INPUT && (out = "ERROR: too much input\n"))
+	|| (err == FINISH && (out = "MESSAGE: Exit the program\n"))
+	|| (err == TEXTURE && (out = "ERROR: invalid textures\n"))
+	|| (err == USAGE && (out = "ERROR: invalid input. Read it ->\n\n")))
+		ft_putstr(out);
+	exit(-1);
+}
+
+void	sys_message(int msg)
+{
+	char *out;
+
+	if ((msg == USAGE && (out = "USAGE:\nControls:\nArrow Keys & WASD to Move\n"
+			"Esc to Exit\nType start to begin the game\n"))
+	|| (msg == START && (out = "MESSAGE: Start the game\n"))
+	|| (msg == LEFT && (out = "MESSAGE: Left\n"))
+	|| (msg == RIGHT && (out = "MESSAGE: Right\n"))
+	|| (msg == UP && (out = "MESSAGE: Up\n"))
+	|| (msg == DOWN && (out = "MESSAGE: Down\n")))
+		ft_putstr(out);
+}
+
+void	sys_free(t_dataset *ai)//
 {
 	int i;
 
 	i = -1;
-	while(++i <= data->row)
-		free(data->worldmap[i]);
-	free(data->worldmap);
+	while (++i <= ai->row)
+		free(ai->worldmap[i]);
+	free(ai->worldmap);
+	free(ai);//double free
 }

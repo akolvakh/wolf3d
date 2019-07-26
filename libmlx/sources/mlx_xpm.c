@@ -109,7 +109,7 @@ int	mlx_int_get_text_rgb(char *name, char *end)
 }
 
 
-void	mlx_int_xpm_set_pixel(mlx_img_list_t *img, char *data, int opp, int col, int x)
+void	mlx_int_xpm_set_pixel(mlx_img_list_t *img, char *ai, int opp, int col, int x)
 {
   /*
   int	dec;
@@ -118,14 +118,14 @@ void	mlx_int_xpm_set_pixel(mlx_img_list_t *img, char *data, int opp, int col, in
   while (dec--)
     {
       if (img->image->byte_order)
-	*(data+x*opp+dec) = col&0xFF;
+	*(ai+x*opp+dec) = col&0xFF;
       else
-	*(data+x*opp+opp-dec-1) = col&0xFF;
+	*(ai+x*opp+opp-dec-1) = col&0xFF;
       col >>= 8;
     }
   */
   // opp is 4, do it the simple way
-  *((unsigned int *)(data+4*x)) = col;
+  *((unsigned int *)(ai+4*x)) = col;
 }
 
 
@@ -134,7 +134,7 @@ void	*mlx_int_parse_xpm(mlx_ptr_t *xvar,void *info,int info_size,char *(*f)())
   int	pos;
   char	*line;
   char	**tab;
-  char	*data;
+  char	*ai;
   char	*clip_data;
   int	nc;
   int	opp;
@@ -221,7 +221,7 @@ void	*mlx_int_parse_xpm(mlx_ptr_t *xvar,void *info,int info_size,char *(*f)())
 
 
   i = height;
-  data = img->buffer;
+  ai = img->buffer;
   while (i--)
     {
       if (!(line = f(info,&pos,info_size)))
@@ -248,11 +248,11 @@ void	*mlx_int_parse_xpm(mlx_ptr_t *xvar,void *info,int info_size,char *(*f)())
 	  //	  else
 	  if (col==-1)
 	    col = 0xFF000000;
-	  mlx_int_xpm_set_pixel(img, data, opp, col, x);
+	  mlx_int_xpm_set_pixel(img, ai, opp, col, x);
 	  x ++;
 	}
-      //      data += img->size_line;
-      data += img->width*4;
+      //      ai += img->size_line;
+      ai += img->width*4;
     }
   /*
   if (clip_data)

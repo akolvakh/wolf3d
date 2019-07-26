@@ -14,35 +14,35 @@
 
 t_dataset	*init_dataset(char *argv)
 {
-	t_dataset *data;
+	t_dataset *ai;
 
-	data = (t_dataset *)ft_memalloc(sizeof(t_dataset));
-	data->w = WIDTH;
-	data->h = HEIGHT;
-	data->posx = 6;
-	data->posy = 8;
-	data->dirx = -1;
-	data->diry = 0;
-	data->planex = 0;
-	data->planey = 0.66;
-	data->time = 0;
-	data->oldtime = 0;
-	data->control_up = 0;
-	data->control_down = 0;
-	data->control_left = 0;
-	data->control_right = 0;
-	data->rotspeed = .2;
-	data->movespeed = .2;
-	data->amount = count_blocks(argv);
-	data->row = 0;
-	data->a = 0;
-	data->cnt = 0;
-	data->line = 0;
-	data->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * data->amount);
-	return (data);
+	ai = (t_dataset *)ft_memalloc(sizeof(t_dataset));
+	ai->w = WDT;
+	ai->h = HGT;
+	ai->posx = 6;
+	ai->posy = 8;
+	ai->dirx = -1;
+	ai->diry = 0;
+	ai->planex = 0;
+	ai->planey = 0.66;
+	ai->time = 0;
+	ai->oldtime = 0;
+	ai->control_up = 0;
+	ai->control_down = 0;
+	ai->control_left = 0;
+	ai->control_right = 0;
+	ai->rotspeed = .2;
+	ai->movespeed = .2;
+	ai->amount = count_blocks(argv);
+	ai->row = 0;
+	ai->a = 0;
+	ai->cnt = 0;
+	ai->line = 0;
+	ai->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * ai->amount);
+	return (ai);
 }
 
-void	init_level(t_dataset *data)
+void	init_level(t_dataset *ai)//leaks
 {
 	int i;
 	int k;
@@ -52,38 +52,46 @@ void	init_level(t_dataset *data)
 	
 	i = -1;
 	k = 0;
-	data->worldmap = (char **)ft_memalloc(sizeof(char) * data->l * data->row);
-	while(++i <= data->row)
-		data->worldmap[i] = (char *)ft_memalloc(sizeof(char*)*data->l);
+	ai->worldmap = (char **)ft_memalloc(sizeof(char) * ai->l * ai->row);
+	while(++i <= ai->row)
+		ai->worldmap[i] = (char *)ft_memalloc(sizeof(char*)*ai->l);
 	i = 0;
-	while(i <= data->row)
+	while(i <= ai->row)
 	{
 		j = -1;
-		while(++j < data->l)
+		while(++j < ai->l)
 		{
-			ptr = ft_itoa(data->dot[k].z);
+			ptr = ft_itoa(ai->dot[k].z);
 			numb = *ptr;
-			data->worldmap[i][j] = numb;
+			ai->worldmap[i][j] = numb;
 			k++;
+			free(ptr);
 		}
-		data->worldmap[i][j+1] = '\0';
+		ai->worldmap[i][j+1] = '\0';
 		i++;
 	}
+	/*ft_putnbr(i);
+	ft_putnbr(j);
+	if (ai->worldmap[0][0] == 0
+	|| ai->worldmap[i][0] == 0
+	|| ai->worldmap[0][j] == 0
+	|| ai->worldmap[i][j] == 0)
+		sys_error(MAP);*/
 }
 
-void	init_color(t_dataset *data)
+void	init_color(t_dataset *ai)
 {
 	char color;
 
-	color = data->worldmap[data->mapx][data->mapy];
+	color = ai->worldmap[ai->mapx][ai->mapy];
 	if (color == '1')
-		data->color = PINK;
+		ai->color = PINK;
 	else if (color == '2')
-		data->color = YELLOW;
+		ai->color = YELLOW;
 	else if (color == '3')
-		data->color = BLUE;
+		ai->color = BLUE;
 	else if (color == '4')
-		data->color = GREEN;
+		ai->color = GREEN;
 	else if (color == '0')
-		data->color = WHITE;
+		ai->color = WHITE;
 }
