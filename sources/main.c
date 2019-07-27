@@ -17,8 +17,8 @@ int	main(int argc, char **argv)
 {
 	t_dataset *ai;
 
-	ai = (t_dataset *)ft_memalloc(sizeof(t_dataset));
-
+	if(!(ai = (t_dataset *)ft_memalloc(sizeof(t_dataset))))
+		sys_error(MALLOC);
 	if (argc < 2)
 		sys_message(USAGE);
 	if (argc > 2)

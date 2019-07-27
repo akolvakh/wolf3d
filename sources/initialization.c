@@ -14,6 +14,11 @@
 
 t_dataset	*init_dataset(t_dataset *ai, char *argv)
 {
+	ai->control_up = 0;
+	ai->control_down = 0;
+	ai->control_left = 0;
+	ai->control_right = 0;
+	ai->amount = count_blocks(argv);
 	ai->w = WDT;
 	ai->h = HGT;
 	ai->posx = 1;
@@ -24,20 +29,15 @@ t_dataset	*init_dataset(t_dataset *ai, char *argv)
 	ai->planey = 0.66;
 	ai->time = 0;
 	ai->oldtime = 0;
-	ai->control_up = 0;
-	ai->control_down = 0;
-	ai->control_left = 0;
-	ai->control_right = 0;
 	ai->rotspeed = .4;
-	ai->movespeed = .4;
-	ai->amount = count_blocks(argv);
+	ai->movespeed = .3;
 	ai->row = 0;
 	ai->a = 0;
 	ai->cnt = 0;
 	ai->line = 0;
 	ai->coof = 600;
+	ai->txt_mod = 0;
 	ai->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * ai->amount);
-	ai->texture_mod = 0;
 	return (ai);
 }
 
@@ -49,69 +49,74 @@ void	init_mlx(t_dataset *ai)
 		sys_error(WIN);
 	if (!(ai->img = mlx_new_image(ai->mlx, WDT, HGT)))
 		sys_error(IMG);
-	init_textures(ai);
+	init_textures1(ai);
+	init_textures2(ai);
+	init_textures3(ai);
 }
 
-void	init_textures(t_dataset *ai) //4 textures
+void	init_textures1(t_dataset *ai)
 {
 	int i;
-	int size;
 
-	size = 64;
+	ai->size = 64;
 	i = -1;
-	ai->texture = (t_texture **)ft_memalloc(8 * sizeof(t_texture *));
+	ai->txt = (t_texture **)ft_memalloc(8 * sizeof(t_texture *));
 	while (++i < 8)
-		ai->texture[i] = (t_texture *) ft_memalloc(sizeof(t_texture));
-
-	if(!(ai->texture[0]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/crafting_table_side.xpm", &size, &size)))
+		ai->txt[i] = (t_texture *) ft_memalloc(sizeof(t_texture));
+	if(!(ai->txt[0]->img = mlx_xpm_file_to_image(ai->mlx, 
+				"./textures/crafting_table_side.xpm", &ai->size, &ai->size)))
 				sys_error(TEXTURE);
-	ai->texture[0]->img_ptr = (int *)mlx_get_data_addr(ai->texture[0]->img, &ai->texture[0]->bpp, &ai->texture[0]->sl, &ai->texture[0]->ending);
-
-
-
-	if(!(ai->texture[1]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/sandstone_top.xpm", &size, &size)))
+	if(!(ai->txt[0]->img_ptr = (int *)mlx_get_data_addr(ai->txt[0]->img,
+				&ai->txt[0]->bpp, &ai->txt[0]->sl, &ai->txt[0]->ending)))
+				sys_error(IMG_PTR);
+	if(!(ai->txt[1]->img = mlx_xpm_file_to_image(ai->mlx, 
+				"./textures/sandstone_top.xpm", &ai->size, &ai->size)))
 				sys_error(TEXTURE);
-	if(!(ai->texture[1]->img_ptr = (int *)mlx_get_data_addr(ai->texture[1]->img, 
-			&ai->texture[1]->bpp, &ai->texture[1]->sl, &ai->texture[1]->ending)))
+	if(!(ai->txt[1]->img_ptr = (int *)mlx_get_data_addr(ai->txt[1]->img,
+				&ai->txt[1]->bpp, &ai->txt[1]->sl, &ai->txt[1]->ending)))
 			sys_error(IMG_PTR);
-
-
-
-	if(!(ai->texture[2]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/furnace_side.xpm", &size, &size)))
+	if(!(ai->txt[2]->img = mlx_xpm_file_to_image(ai->mlx, 
+				"./textures/furnace_side.xpm", &ai->size, &ai->size)))
 			sys_error(TEXTURE);
-	if(!(ai->texture[2]->img_ptr = (int *)mlx_get_data_addr(ai->texture[2]->img, 
-			&ai->texture[2]->bpp, &ai->texture[2]->sl, &ai->texture[2]->ending)))
+}
+
+void	init_textures2(t_dataset *ai)
+{
+	if(!(ai->txt[2]->img_ptr = (int *)mlx_get_data_addr(ai->txt[2]->img,
+			&ai->txt[2]->bpp, &ai->txt[2]->sl, &ai->txt[2]->ending)))
 			sys_error(IMG_PTR);
-
-
-	if(!(ai->texture[3]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/glowstone.xpm", &size, &size)))
+	if(!(ai->txt[3]->img = mlx_xpm_file_to_image(ai->mlx,
+			"./textures/glowstone.xpm", &ai->size, &ai->size)))
 			sys_error(TEXTURE);
-	if(!(ai->texture[3]->img_ptr = (int *)mlx_get_data_addr(ai->texture[3]->img, 
-			&ai->texture[3]->bpp, &ai->texture[3]->sl, &ai->texture[3]->ending)))
+	if(!(ai->txt[3]->img_ptr = (int *)mlx_get_data_addr(ai->txt[3]->img,
+			&ai->txt[3]->bpp, &ai->txt[3]->sl, &ai->txt[3]->ending)))
 			sys_error(IMG_PTR);
-
-	if(!(ai->texture[4]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/gold_block.xpm", &size, &size)))
+	if(!(ai->txt[4]->img = mlx_xpm_file_to_image(ai->mlx,
+			"./textures/gold_block.xpm", &ai->size, &ai->size)))
 			sys_error(TEXTURE);
-	if(!(ai->texture[4]->img_ptr = (int *)mlx_get_data_addr(ai->texture[4]->img, 
-			&ai->texture[4]->bpp, &ai->texture[4]->sl, &ai->texture[4]->ending)))
+	if(!(ai->txt[4]->img_ptr = (int *)mlx_get_data_addr(ai->txt[4]->img,
+			&ai->txt[4]->bpp, &ai->txt[4]->sl, &ai->txt[4]->ending)))
 			sys_error(IMG_PTR);
-
-
-	if(!(ai->texture[5]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/hay_block_side.xpm", &size, &size)))
+	if(!(ai->txt[5]->img = mlx_xpm_file_to_image(ai->mlx,
+			"./textures/hay_block_side.xpm", &ai->size, &ai->size)))
 			sys_error(TEXTURE);
-	if(!(ai->texture[5]->img_ptr = (int *)mlx_get_data_addr(ai->texture[5]->img, 
-			&ai->texture[5]->bpp, &ai->texture[5]->sl, &ai->texture[5]->ending)))
+	if(!(ai->txt[5]->img_ptr = (int *)mlx_get_data_addr(ai->txt[5]->img,
+			&ai->txt[5]->bpp, &ai->txt[5]->sl, &ai->txt[5]->ending)))
 			sys_error(IMG_PTR);
-
-	if(!(ai->texture[6]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/lapis_block.xpm", &size, &size)))
+	if(!(ai->txt[6]->img = mlx_xpm_file_to_image(ai->mlx,
+			"./textures/lapis_block.xpm", &ai->size, &ai->size)))
 			sys_error(TEXTURE);
-	if(!(ai->texture[6]->img_ptr = (int *)mlx_get_data_addr(ai->texture[6]->img, 
-			&ai->texture[6]->bpp, &ai->texture[6]->sl, &ai->texture[6]->ending)))
+}
+
+void	init_textures3(t_dataset *ai)
+{
+	if(!(ai->txt[6]->img_ptr = (int *)mlx_get_data_addr(ai->txt[6]->img,
+			&ai->txt[6]->bpp, &ai->txt[6]->sl, &ai->txt[6]->ending)))
 			sys_error(IMG_PTR);
-
-	if(!(ai->texture[7]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/stonebrick.xpm", &size, &size)))
+	if(!(ai->txt[7]->img = mlx_xpm_file_to_image(ai->mlx,
+			"./textures/stonebrick.xpm", &ai->size, &ai->size)))
 			sys_error(TEXTURE);
-	if(!(ai->texture[7]->img_ptr = (int *)mlx_get_data_addr(ai->texture[7]->img, 
-			&ai->texture[7]->bpp, &ai->texture[7]->sl, &ai->texture[7]->ending)))
+	if(!(ai->txt[7]->img_ptr = (int *)mlx_get_data_addr(ai->txt[7]->img,
+			&ai->txt[7]->bpp, &ai->txt[7]->sl, &ai->txt[7]->ending)))
 			sys_error(IMG_PTR);
 }

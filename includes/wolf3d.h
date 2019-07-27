@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include "libft.h"
-# include <mlx.h>
+# include "mlx.h"
 
 enum				e_keys
 {
@@ -133,7 +133,6 @@ typedef struct		s_dataset
 	*/
 	void			*mlx;
 	void			*win;
-
 	void			*img;
 	/*
 	**   parser
@@ -169,8 +168,6 @@ typedef struct		s_dataset
 	int				wall_sl;
 	int				wall_end;
 	int				wall_bpp;
-
-		int			texture_mod;
 
 	void			*tx0;
 	int				*img_tx0;
@@ -235,11 +232,6 @@ typedef struct		s_dataset
 	int				tx7_bpp;
 	int				tx7_w;
 	int				tx7_h;
-
-
-	//int				wall_sl;
-	//int				wall_end;
-	//int				wall_bpp;
 
 
 	int				ceil_sl;
@@ -317,33 +309,24 @@ typedef struct		s_dataset
 	int				control_left;
 	int				control_right;
 	/*
-	**   color
+	**   bitmapping
 	*/
-	unsigned char	chan[3];
-
-	t_texture	**texture;
-
-
-
-	double wallx; 
-	int texnum;
-	int texx;
-	int texy;
-	unsigned long tex_color;
-
+	t_texture		**txt;
+	double 			wallx; 
+	int 			texnum;
+	int 			texx;
+	int 			texy;
+	unsigned long 	tex_color;
+	int				txt_mod;
+	int 			size;
 
 }					t_dataset;
 
-
-
-
-
-
-
-void				init_level(t_dataset *ai);
-void				init_textures(t_dataset *ai);
-void				init_color(t_dataset *ai);
 t_dataset			*init_dataset(t_dataset *ai, char *argv);
+void				init_level(t_dataset *ai);
+void				init_textures1(t_dataset *ai);
+void				init_textures2(t_dataset *ai);
+void				init_textures3(t_dataset *ai);
 void				init_mlx(t_dataset *ai);
 void				validate_level(t_dataset *ai);
 

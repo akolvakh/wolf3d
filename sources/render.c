@@ -14,7 +14,8 @@
 
 void	rdr_geometry(t_dataset *ai)
 {
-	ai->img_wall = (int*)mlx_get_data_addr(ai->img, &(ai->wall_bpp), &(ai->wall_sl), &(ai->wall_end));
+	ai->img_wall = (int*)mlx_get_data_addr(ai->img, &(ai->wall_bpp),
+		&(ai->wall_sl), &(ai->wall_end));
 	ai->x = -1;
 	while (++ai->x < ai->w)
 	{
@@ -52,7 +53,6 @@ void	rdr_player(t_dataset *ai)
 	}
 	mlx_put_image_to_window(ai->mlx, ai->win, ai->wep_right, 1200, ai->coof);
 	mlx_put_image_to_window(ai->mlx, ai->win, ai->wep_left, 10, ai->coof);
-
 }
 
 void	rdr_interface(t_dataset *ai)

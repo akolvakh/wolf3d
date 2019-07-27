@@ -32,7 +32,8 @@ H = $(addprefix $(H_DIR), $(H_LIST))
 
 SRC_DIR = ./sources/
 SRC_LIST = main.c\
-core.c\
+core1.c\
+core2.c\
 initialization.c\
 system.c\
 movement.c\

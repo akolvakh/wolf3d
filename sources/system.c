@@ -64,8 +64,8 @@ void	sys_free(t_dataset *ai)
 	free(ai->dot);
 	i = -1;
 	while (++i < 8)
-		free(ai->texture[i]);
-	free(ai->texture);
+		free(ai->txt[i]);
+	free(ai->txt);
 	free(ai->worldmap);
 	free(ai);//double free
 }
