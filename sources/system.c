@@ -37,7 +37,6 @@ void	sys_error(int err)
 	|| (err == TEXTURE && (out = "ERROR: invalid textures\n"))
 	|| (err == USAGE && (out = "ERROR: invalid input. Read it ->\n\n")))
 		ft_putstr(out);
-	system("leaks > leaks wolf3d");
 	exit(-1);
 }
 

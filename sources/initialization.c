@@ -28,8 +28,8 @@ t_dataset	*init_dataset(t_dataset *ai, char *argv)
 	ai->control_down = 0;
 	ai->control_left = 0;
 	ai->control_right = 0;
-	ai->rotspeed = .2;
-	ai->movespeed = .2;
+	ai->rotspeed = .4;
+	ai->movespeed = .4;
 	ai->amount = count_blocks(argv);
 	ai->row = 0;
 	ai->a = 0;
@@ -54,27 +54,20 @@ void	init_mlx(t_dataset *ai)
 
 void	init_textures(t_dataset *ai) //4 textures
 {
-
-
 	int i;
 	int size;
 
 	size = 64;
-
-
 	i = -1;
 	ai->texture = (t_texture **)ft_memalloc(8 * sizeof(t_texture *));
 	while (++i < 8)
 		ai->texture[i] = (t_texture *) ft_memalloc(sizeof(t_texture));
 
-
-
-
 	ai->texture[0]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/crafting_table_side.xpm", &size, &size);
 
 	ai->texture[0]->img_ptr = (int *)mlx_get_data_addr(ai->texture[0]->img, &ai->texture[0]->bpp, &ai->texture[0]->sl, &ai->texture[0]->ending);
 
-	ai->texture[1]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/emerald_block.xpm",
+	ai->texture[1]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/sandstone_top.xpm",
 			&size, &size);
 	if(!(ai->texture[1]->img_ptr = (int *)mlx_get_data_addr(ai->texture[1]->img, 
 			&ai->texture[1]->bpp, &ai->texture[1]->sl, &ai->texture[1]->ending)))
@@ -122,39 +115,3 @@ void	init_textures(t_dataset *ai) //4 textures
 			&ai->texture[7]->bpp, &ai->texture[7]->sl, &ai->texture[7]->ending)))
 			sys_error(IMG_PTR);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// void	init_color(t_dataset *ai)
-// {
-// 	char color;
-
-// 	color = ai->worldmap[ai->mapx][ai->mapy];//менять цвет в зависимости от текстуры. То есть, брать ее, считывать, записывать в файл, проходиться по нему и записывать его.
-// 	//вектор записать по формуле х * у и дальше искать нужную координату, етс. 
-// 	if (color == '1')
-// 		ai->color = PINK;
-// 	else if (color == '2')
-// 		ai->color = YELLOW;
-// 	else if (color == '3')
-// 		ai->color = BLUE;
-// 	else if (color == '4')
-// 		ai->color = GREEN;
-// 	else if (color == '0')
-// 		ai->color = WHITE;
-// }

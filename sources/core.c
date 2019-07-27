@@ -10,145 +10,147 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//display plane
-//point of view
-//ray
-//distance
-//
-
-
 #include "wolf3d.h"
 
-void	draw_dot(t_dataset *ai, int x, int y, int color)
+void	draw_dot(t_dataset *ai)
 {
-	if (!(x < 0 || y < 0 || x >= (int)WDT || y >= (int)HGT))
-		ai->img_wall[x + y * (int)WDT] = color;
+	if (!(ai->x < 0
+	|| ai->drawstart < 0
+	|| ai->x >= (int)WDT
+	|| ai->drawstart >= (int)HGT))
+		ai->img_wall[ai->x + ai->drawstart * (int)WDT] = ai->tex_color;
 }
 
-void	draw_flour(t_dataset *ai, int x)
+void	draw_floor(t_dataset *ai)
 {
+	ai->tex_color = YELLOW;
 	ai->drawstart--;
 	while (++ai->drawstart < HGT)
-		draw_dot(ai, x, ai->drawstart, 0x4f4f4f);
+		draw_dot(ai);
 }
 
-void			ray(t_dataset *g) //stage 1 - function, ai, different structures, same(one) structure, shaders, buffers, etc.
+void	ray(t_dataset *ai)
 {
-	g->camerax = 2 * g->x / (double)g->w - 1;
-	g->rayposx = g->posx;
-	g->rayposy = g->posy;
-	g->raydirx = g->dirx + g->planex * g->camerax;
-	g->raydiry = g->diry + g->planey * g->camerax;
-	g->mapx = (int)g->rayposx;
-	g->mapy = (int)g->rayposy;
-	g->deltadistx = sqrt(1 + (g->raydiry *
-				g->raydiry) / (g->raydirx * g->raydirx));
-	g->deltadisty = sqrt(1 + (g->raydirx *
-				g->raydirx) / (g->raydiry * g->raydiry));
-	g->hit = 0;
+	ai->camerax = 2 * ai->x / (double)ai->w - 1;
+	ai->rayposx = ai->posx;
+	ai->rayposy = ai->posy;
+	ai->raydirx = ai->dirx + ai->planex * ai->camerax;
+	ai->raydiry = ai->diry + ai->planey * ai->camerax;
+	ai->mapx = (int)ai->rayposx;
+	ai->mapy = (int)ai->rayposy;
+	ai->deltadistx = sqrt(1 + (ai->raydiry * ai->raydiry) / (ai->raydirx * ai->raydirx));
+	ai->deltadisty = sqrt(1 + (ai->raydirx * ai->raydirx) / (ai->raydiry * ai->raydiry));
+	ai->hit = 0;
 }
 
-void			drawstuff2(t_dataset *g) //stage 2
+void	check_raydirx(t_dataset *ai)
 {
-	if (g->raydirx < 0)
+	if (!(ai->raydirx < 0))
 	{
-		g->stepx = -1;
-		g->sidedistx = (g->rayposx - g->mapx) * g->deltadistx;
+		ai->stepx = 1;
+		ai->sidedistx = (ai->mapx + 1.0 - ai->rayposx) * ai->deltadistx;
+
 	}
 	else
 	{
-		g->stepx = 1;
-		g->sidedistx = (g->mapx + 1.0 - g->rayposx) * g->deltadistx;
-	}
-	if (g->raydiry < 0)
-	{
-		g->stepy = -1;
-		g->sidedisty = (g->rayposy - g->mapy) * g->deltadisty;
-	}
-	else
-	{
-		g->stepy = 1;
-		g->sidedisty = (g->mapy + 1.0 - g->rayposy) * g->deltadisty;
+		ai->stepx = -1;
+		ai->sidedistx = (ai->rayposx - ai->mapx) * ai->deltadistx;
 	}
 }
 
-void			drawstuff3(t_dataset *g) //stage 3 // код просто с туториала. Нужно переделывать, переписывать, рефакторить и реорганизовывать, чтобы был разный код, разные дела, детали и механизмы. Чтобы все было разное и пройти пандору, етс.
-{//вставлять сторонние вызовы и функции для расчета, просчета, чтобы поменять флоу и етс. Лучше пусть будет запутанным, неоптимизированным, но рабочим и другим, но потом буду делать свое, перепишу, оптимизирую, сделаю и переделаю то, что нужно и так, как надо. Етс. 
-//проверка собой, проверка кем-то, проверка ребятами, проверка людьми, проверка пир ревью, проверка пандорой и етс.
-	while (g->hit == 0)
+void	check_raydiry(t_dataset *ai)
+{
+	if (!(ai->raydiry < 0))
 	{
-		if (g->sidedistx < g->sidedisty)
+		ai->stepy = 1;
+		ai->sidedisty = (ai->mapy + 1.0 - ai->rayposy) * ai->deltadisty;
+	}
+	else
+	{
+		ai->stepy = -1;
+		ai->sidedisty = (ai->rayposy - ai->mapy) * ai->deltadisty;
+	}
+}
+
+void	check_distance(t_dataset *ai) 
+{
+	while (ai->hit == 0)
+	{
+		if (!(ai->sidedistx < ai->sidedisty))
 		{
-			g->sidedistx += g->deltadistx;
-			g->mapx += g->stepx;
-			g->side = 0;
+			ai->sidedisty = ai->sidedisty + ai->deltadisty;
+			ai->mapy = ai->mapy + ai->stepy;
+			ai->side = 1;
 		}
 		else
 		{
-			g->sidedisty += g->deltadisty;
-			g->mapy += g->stepy;
-			g->side = 1;
+			ai->sidedistx = ai->sidedistx + ai->deltadistx;
+			ai->mapx = ai->mapx + ai->stepx;
+			ai->side = 0;
 		}
-		if (g->worldmap[g->mapx][g->mapy] != '0')
-			g->hit = 1;
+		if (ai->worldmap[ai->mapx][ai->mapy] != '0')
+			ai->hit = 1;
 	}
-	if (g->side == 0)
-		g->perpwalldist = (g->mapx - g->rayposx +
-				(1 - g->stepx) / 2) / g->raydirx;
+	if (ai->side == 0)
+		ai->perpwalldist = (ai->mapx - ai->rayposx + (1 - ai->stepx) / 2) / ai->raydirx;
 	else
-		g->perpwalldist = (g->mapy - g->rayposy +
-				(1 - g->stepy) / 2) / g->raydiry;
-	g->lineheight = (int)(g->h / g->perpwalldist);
-	g->drawstart = -(g->lineheight) / 2 + g->h / 2;
-}
-
-void			texturation(t_dataset *ai, int x) // (drawing) в этом блоке цепляем цвет на стены. И тут нужно будет цеплять текстуры, текстуру на стены. Это - ключевой блок
-{
-      int texnum = ai->worldmap[ai->mapx][ai->mapy] - 1; //1 subtracted from it so that texture 0 can be used!
-      double wallx; //where exactly the wall was hit
-      if (ai->side == 0) wallx = ai->posy + ai->perpwalldist * ai->raydiry;
-      else           wallx = ai->posx + ai->perpwalldist * ai->raydirx;
-      wallx -= floor((wallx));
-      int texx = (wallx * TEX_WDT);
-      if(ai->side == 0 && ai->raydirx > 0) texx = TEX_WDT - texx - 1;
-      if(ai->side == 1 && ai->raydiry < 0) texx = TEX_WDT - texx - 1;
-
-			unsigned long color;
-
-	 	for(int y = ai->drawstart; y<ai->drawend; y++)
-     {
-        int d = y * 256 - ai->h * 128 + ai->lineheight * 128;  //256 and 128 factors to avoid floats
-        int texy = ((d * TEX_HGT) / ai->lineheight) / 256;
-
-if (ai->side == 1 && ai->raydiry < 0)
-	color = (ai->texture[(texnum + ai->texture_mod) % 8]->img_ptr[64 * texy + texx] >> 1) & 0x7F7F7F;
-if (ai->side == 1 && ai->raydiry > 0)
-	color = (ai->texture[(texnum + 1 + ai->texture_mod) % 8]->img_ptr[64 * texy + texx] >> 1) & 0x7F7F7F;
-if (ai->side == 0 && ai->raydirx < 0)
-	color = ai->texture[(texnum + 2 + ai->texture_mod) % 8]->img_ptr[64 * texy + texx];
-if (ai->side == 0 && ai->raydirx > 0)
-	color = ai->texture[(texnum + 3 + ai->texture_mod) % 8]->img_ptr[64 * texy + texx];
-draw_dot(ai, x, ai->drawstart, color);
-ai->drawstart++;
-		}
-//draw_flour(ai, ai->x);
+		ai->perpwalldist = (ai->mapy - ai->rayposy + (1 - ai->stepy) / 2) / ai->raydiry;
+	ai->lineheight = (int)(ai->h / ai->perpwalldist);
+	ai->drawstart = -(ai->lineheight) / 2 + ai->h / 2;
 }
 
 
 
 
+void	texturation(t_dataset *ai)
+{
+	ai->texnum = ai->worldmap[ai->mapx][ai->mapy] - 1;
+	if (ai->side == 0)
+		ai->wallx = ai->posy + ai->perpwalldist * ai->raydiry;
+	else
+		ai->wallx = ai->posx + ai->perpwalldist * ai->raydirx;
+	ai->wallx = ai->wallx - floor((ai->wallx));
 
+	
+	ai->texx = (ai->wallx * TEX_WDT);
+	if (ai->side == 0 && ai->raydirx > 0)
+		ai->texx = TEX_WDT - ai->texx - 1;
+	if (ai->side == 1 && ai->raydiry < 0)
+		ai->texx = TEX_WDT - ai->texx - 1;
+}
 
+void	bitmapping(t_dataset *ai)
+{
+	int y;
+	int d;
 
-void			visualization(t_dataset *g) //stage 4 - цвет и текстуры, g (drawline)
+	y = ai->drawstart;
+	while (y < ai->drawend)
+	{
+		d = (y * 256 - ai->h * 128 + ai->lineheight * 128); //(*1000 / 1000)
+		ai->texy = (((d * TEX_HGT) / ai->lineheight) / 256); // (*1000 / 1000)
+		if (ai->side == 1 && ai->raydiry < 0)
+			ai->tex_color = (ai->texture[(ai->texnum + ai->texture_mod) % 8]->img_ptr[TEX_WDT * ai->texy + ai->texx] >> 1) & 0x7f7f7f;
+		if (ai->side == 1 && ai->raydiry > 0)
+			ai->tex_color = (ai->texture[(ai->texnum + 1 + ai->texture_mod) % 8]->img_ptr[TEX_WDT * ai->texy + ai->texx] >> 1) & 0x7f7f7f;
+		if (ai->side == 0 && ai->raydirx < 0)
+			ai->tex_color = ai->texture[(ai->texnum + 2 + ai->texture_mod) % 8]->img_ptr[TEX_WDT * ai->texy + ai->texx];
+		if (ai->side == 0 && ai->raydirx > 0)
+			ai->tex_color = ai->texture[(ai->texnum + 3 + ai->texture_mod) % 8]->img_ptr[TEX_WDT * ai->texy + ai->texx];
+		draw_dot(ai);
+		ai->drawstart++;
+		y++;
+	}
+}
+
+void	visualization(t_dataset *g)
 {
 	g->drawstart = -(g->lineheight) / 2 + g->h / 2;
-	if (g->drawstart < 0)
+	if (!(g->drawstart > 0))
 		g->drawstart = 0;
 	g->drawend = g->lineheight / 2 + g->h / 2;
 	if (g->drawend >= g->h)
 		g->drawend = g->h - 1;
-	if (g->side == 1)
+	if (!(g->side != 1))
 		g->color = g->color / 2;
-	texturation(g, g->x);
 }

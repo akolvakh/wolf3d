@@ -323,12 +323,21 @@ typedef struct		s_dataset
 
 	t_texture	**texture;
 
+
+
+	double wallx; 
+	int texnum;
+	int texx;
+	int texy;
+	unsigned long tex_color;
+
+
 }					t_dataset;
 
 
 
 
-void	draw_dot(t_dataset *ai, int x, int y, int color);
+
 
 
 void				init_level(t_dataset *ai);
@@ -350,11 +359,14 @@ void				movement_right(t_dataset *ai);
 
 
 void				ray(t_dataset *ai);
-void				drawstuff2(t_dataset *ai);
-void				drawstuff3(t_dataset *ai);
+void				check_raydirx(t_dataset *ai);
+void				check_raydiry(t_dataset *ai);
+void				check_distance(t_dataset *ai); 
 void				visualization(t_dataset *ai);
-unsigned int		colormagic(int i, double x, double y);
-void				texturation(t_dataset *ai, int x);
+void				texturation(t_dataset *ai);
+void				draw_floor(t_dataset *ai);
+void				draw_dot(t_dataset *ai);
+void				bitmapping(t_dataset *ai);
 
 void				rdr_display(t_dataset *ai);
 void				rdr_pipeline(t_dataset *ai);
