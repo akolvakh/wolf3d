@@ -111,14 +111,14 @@ enum				e_moves
 	DOWN = 14
 };
 
-typedef	struct	s_texture
+typedef	struct		s_texture
 {
-	void		*img;
-	int			*img_ptr;
-	int			bpp;
-	int			sl;
-	int			ending;
-}				t_texture;
+	void			*img;
+	int				*img_ptr;
+	int				bpp;
+	int				sl;
+	int				ending;
+}					t_texture;
 
 typedef struct		s_dot
 {
@@ -156,7 +156,7 @@ typedef struct		s_dataset
 	**   textures
 	*/
 	void			*menu;
-	void			*wep_left;//
+	void			*wep_left;
 	void			*wep_right;
 	int				*img_wall;
 	int				*img_wep_left;
@@ -321,9 +321,7 @@ typedef struct		s_dataset
 	int 			texx;
 	int 			texy;
 	unsigned long 	tex_color;
-	int				txt_mod;
 	int 			size;
-
 	int				checker;
 }					t_dataset;
 
@@ -333,9 +331,11 @@ void				init_textures1(t_dataset *ai);
 void				init_textures2(t_dataset *ai);
 void				init_textures3(t_dataset *ai);
 void				init_mlx(t_dataset *ai);
-void				validate_level(t_dataset *ai);
 
-void				sys_error(int error);
+void				validate_level(t_dataset *ai);
+void				validate_param(t_dataset *ai);
+
+void				sys_error(t_dataset *ai, int error);
 void				sys_message(int msg);
 void				sys_free(t_dataset *ai);
 int					sys_close(t_dataset *ai);
@@ -365,8 +365,8 @@ int					key_push(int key, t_dataset *ai);
 int					key_pressed(int key, t_dataset *ai);
 int					key_controllers(t_dataset *ai);
 
-int					count_blocks(char *argv);
-int					count_words(const char *s, char c);
+int					count_blocks(t_dataset *ai, char *argv);
+int					count_words(t_dataset *ai, const char *s, char c);
 int					parser(t_dataset *ai);
  
 #endif

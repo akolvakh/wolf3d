@@ -1,0 +1,20 @@
+Process:         wolf3d [20710]
+Path:            /Users/USER/Downloads/*/wolf3d
+Load Address:    0x107ac0000
+Identifier:      wolf3d
+Version:         ???
+Code Type:       X86-64
+Parent Process:  zsh [20493]
+
+Date/Time:       2019-07-27 23:00:58.377 +0300
+Launch Time:     2019-07-27 23:00:57.115 +0300
+OS Version:      Mac OS X 10.14.5 (18F132)
+Report Version:  7
+Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
+Analysis Tool Version:  Xcode 10.2.1 (10E1001)
+----
+
+leaks Report Version: 4.0
+Process 20710: 11556 nodes malloced for 11735 KB
+Process 20710: 0 leaks for 0 total leaked bytes.
+

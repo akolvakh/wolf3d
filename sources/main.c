@@ -18,17 +18,17 @@ int	main(int argc, char **argv)
 	t_dataset *ai;
 
 	if(!(ai = (t_dataset *)ft_memalloc(sizeof(t_dataset))))
-		sys_error(MALLOC);
+		sys_error(ai, MALLOC);
 	if (argc < 2)
 		sys_message(USAGE);
 	if (argc > 2)
-		sys_error(INPUT);
+		sys_error(ai, INPUT);
 	if (argc == 2)
 	{
 		ai = init_dataset(ai, argv[1]);
 		ai->fd = open(argv[1], O_RDONLY);
 		if ((ai->row = parser(ai) - 1) < 0)
-			sys_error(MAP);
+			sys_error(ai, MAP);
 		close(ai->fd);
 		init_level(ai);
 		validate_level(ai);

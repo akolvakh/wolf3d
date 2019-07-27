@@ -39,7 +39,8 @@ system.c\
 movement.c\
 render.c\
 controls.c\
-parser.c
+parser.c\
+validator.c
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
 
 OBJ_DIR = objects/

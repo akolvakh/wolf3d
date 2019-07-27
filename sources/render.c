@@ -55,7 +55,7 @@ void	rdr_pipeline(t_dataset *ai)
 {
 	mlx_destroy_image(ai->mlx, ai->img);
 	if(!(ai->img = mlx_new_image(ai->mlx, WDT, HGT)))
-		sys_error(IMG);
+		sys_error(ai, IMG);
 	rdr_geometry(ai);
 	rdr_interface(ai);
 	rdr_player(ai);

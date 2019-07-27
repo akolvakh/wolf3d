@@ -15,7 +15,7 @@
 
 #include "wolf3d.h"
 
-int		    count_words(const char *s, char c)
+int		    count_words(t_dataset *ai, const char *s, char c)
 {
 	int i;
 	int word;
@@ -28,7 +28,7 @@ int		    count_words(const char *s, char c)
 			word++;
 		if ((s[i] < '0' || s[i] > '8') &&
 			s[i] != '\n' && s[i] != '\0' && s[i] != ' ')
-			sys_error(VALUE);
+			sys_error(ai, VALUE);
 		i++;
 	}
 	if (s[0] != c)
@@ -36,7 +36,7 @@ int		    count_words(const char *s, char c)
 	return (word);
 }
 
-int		    count_blocks(char *argv)
+int		    count_blocks(t_dataset *ai, char *argv)
 {
 	int		i;
 	int		j;
@@ -45,11 +45,11 @@ int		    count_blocks(char *argv)
 	char	*buff;
 
 	if (!(fd = open(argv, O_RDONLY)))
-		sys_error(FILE);
+		sys_error(ai, FILE);
 	i = 0;
 	while ((ret = get_next_line(fd, &buff)) > 0)
 	{
-		j = count_words(buff, ' ');
+		j = count_words(ai, buff, ' ');
 		i += j;
 		free(buff);
 	}
@@ -62,9 +62,9 @@ int         parser(t_dataset *ai)
 	ai->tmp = (char **)ft_memalloc(sizeof(char **));
 	while ((ai->ret = get_next_line(ai->fd, &ai->buff)) > 0)
 	{
-		ai->l = count_words(ai->buff, ' ');
+		ai->l = count_words(ai, ai->buff, ' ');
 		if (ai->a != 0 && ai->l != ai->a)
-			sys_error(MAP);
+			sys_error(ai, MAP);
 		ai->a = -1;
 		free(ai->tmp);
 		ai->tmp = ft_strsplit(ai->buff, ' ');
@@ -76,7 +76,7 @@ int         parser(t_dataset *ai)
 			ai->cnt++;
 			free(ai->tmp[ai->a]);
 		}
-		ai->a = count_words(ai->buff, ' ');
+		ai->a = count_words(ai, ai->buff, ' ');
 		free(ai->buff);
 		ai->line++;
 	}
@@ -112,34 +112,3 @@ void	init_level(t_dataset *ai)
 		i++;
 	}
 }
-
-void	validate_level(t_dataset *ai)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while(i <= ai->row)
-	{
-		if(i == 0 || i == ai->row)
-		{
-			j = 0;
-			while (ai->worldmap[i][j])
-			{
-				if (ai->worldmap[i][j] == '0')
-					sys_error(MAP);
-				j++;
-			}
-		}
-		if( ai->worldmap[i][0] == '0' || ai->worldmap[i][j - 1] == '0')
-			sys_error(MAP);
-		i++;
-	}
-	if (ai-> row < 3)
-		sys_error(MAP);
-	i = ai->posx;
-	j = ai->posy;
-	if (ai->worldmap[j][i] != '0')
-		sys_error(PLAYER);
-}
-

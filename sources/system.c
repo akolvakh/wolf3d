@@ -14,13 +14,15 @@
 
 int		sys_close(t_dataset *ai)
 {
-	mlx_destroy_window(ai->mlx, ai->win);
+	if(ai->mlx)
+		mlx_destroy_window(ai->mlx, ai->win);
 	sys_free(ai);
-	sys_error(FINISH);
+	ft_putendl("Exit the game");
+	exit(-1);
 	return (0);
 }
 
-void	sys_error(int err)
+void	sys_error(t_dataset *ai, int err)
 {
 	char *out;
 
@@ -33,12 +35,12 @@ void	sys_error(int err)
 	|| (err == FILE && (out = "ERROR: can't open file\n"))
 	|| (err == MALLOC && (out = "ERROR: can't malloc memory\n"))
 	|| (err == INPUT && (out = "ERROR: too much input\n"))
-	|| (err == FINISH && (out = "MESSAGE: Exit the program\n"))
+	|| (err == FINISH && (out = "MESSAGE: Exit the game\n"))
 	|| (err == TEXTURE && (out = "ERROR: invalid textures\n"))
 	|| (err == PLAYER && (out = "ERROR: player don't have free space\n"))
 	|| (err == USAGE && (out = "ERROR: invalid input. Read it ->\n\n")))
 		ft_putstr(out);
-	exit(-1);
+	sys_close(ai);
 }
 
 void	sys_message(int msg)
@@ -46,7 +48,7 @@ void	sys_message(int msg)
 	char *out;
 
 	if ((msg == USAGE && (out = "USAGE:\nControls:\nArrow Keys & WASD to Move\n"
-			"Esc to Exit\nType start to begin the game\n"))
+			"Shift to super speed\nEsc to Exit\nChoose map to begin the game\n"))
 	|| (msg == START && (out = "MESSAGE: Start the game\n"))
 	|| (msg == LEFT && (out = "MESSAGE: Left\n"))
 	|| (msg == RIGHT && (out = "MESSAGE: Right\n"))
@@ -55,18 +57,39 @@ void	sys_message(int msg)
 		ft_putstr(out);
 }
 
-void	sys_free(t_dataset *ai)
+void	sys_free(t_dataset *ai)//очиститель перед выходом, закрытием и етс - еще один полезный модуль и блок.
 {
 	int i;
+	int j;
+	//system("leaks wolf3d > leaks");
 
 	i = -1;
+	if(!(ai->worldmap))
+		exit(-1);
+
 	while (++i <= ai->row)
+	{
+		j = 0;
+		while (ai->worldmap[i][j])
+		{
+			ai->worldmap[i][j] = '\0';
+			j++;
+		}		
 		free(ai->worldmap[i]);
-	free(ai->dot);
+	}
+
+	if(ai->worldmap)
+		free(ai->dot);
+	free(ai->worldmap);
+	//system("leaks wolf3d > leaks");
+
+	if(!(ai->txt))
+		exit(-1);
 	i = -1;
 	while (++i < 8)
 		free(ai->txt[i]);
 	free(ai->txt);
-	free(ai->worldmap);
 	free(ai);//double free
+	system("leaks wolf3d > leaks");
+
 }
