@@ -31,6 +31,8 @@ int	main(int argc, char **argv)
 			sys_error(ai, MAP);
 		close(ai->fd);
 		init_level(ai);
+		ft_putendl("HERE8");
+
 		validate_level(ai);
 		init_mlx(ai);
 		rdr_display(ai);

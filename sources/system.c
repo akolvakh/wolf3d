@@ -59,9 +59,11 @@ void	sys_message(int msg)
 
 void	sys_free(t_dataset *ai)//очиститель перед выходом, закрытием и етс - еще один полезный модуль и блок.
 {
+
 	int i;
 	int j;
-	//system("leaks wolf3d > leaks");
+
+	system("leaks wolf3d > leaks");
 
 	i = -1;
 	if(!(ai->worldmap))
@@ -74,14 +76,14 @@ void	sys_free(t_dataset *ai)//очиститель перед выходом, з
 		{
 			ai->worldmap[i][j] = '\0';
 			j++;
-		}		
+		}
 		free(ai->worldmap[i]);
 	}
-
 	if(ai->worldmap)
 		free(ai->dot);
 	free(ai->worldmap);
-	//system("leaks wolf3d > leaks");
+
+	system("leaks wolf3d > leaks");
 
 	if(!(ai->txt))
 		exit(-1);
@@ -89,7 +91,7 @@ void	sys_free(t_dataset *ai)//очиститель перед выходом, з
 	while (++i < 8)
 		free(ai->txt[i]);
 	free(ai->txt);
-	free(ai);//double free
+	free(ai);
 	system("leaks wolf3d > leaks");
 
 }

@@ -26,7 +26,7 @@ t_dataset	*init_dataset(t_dataset *ai, char *argv)
 	ai->time = 0;
 	ai->oldtime = 0;
 	ai->posx = 7;//
-	ai->posy = 4;//
+	ai->posy = 7;//
 	ai->dirx = -1;
 	ai->diry = 0;
 	ai->rotspeed = 0.1;

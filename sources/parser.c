@@ -81,6 +81,7 @@ int         parser(t_dataset *ai)
 		ai->line++;
 	}
 	free(ai->tmp);
+
 	return (ai->line);
 }
 
@@ -91,24 +92,34 @@ void	init_level(t_dataset *ai)
 	int j;
 	char numb;
 	char *ptr;
-	
+
 	i = -1;
 	k = 0;
-	ai->worldmap = (char **)ft_memalloc(sizeof(char) * ai->l * ai->row);
+	ai->worldmap = (char **)ft_memalloc(sizeof(char*) * (ai->row + 1) * (ai->l + 1));
 	while(++i <= ai->row)
-		ai->worldmap[i] = (char *)ft_memalloc(sizeof(char*)*ai->l);
+		ai->worldmap[i] = (char *)ft_memalloc(sizeof(char) * ai->l);
 	i = 0;
 	while(i <= ai->row)
 	{
-		j = -1;
-		while(++j < ai->l)
+		j = 0;
+		while(j < ai->l)
 		{
+			ft_putnbr(ai->row);
+			ft_putchar('\n');
+			ft_putnbr(ai->l);
+			ft_putchar('\n');
 			ptr = ft_itoa(ai->dot[k].z);
 			numb = *ptr;
 			ai->worldmap[i][j] = numb;
 			k++;
 			free(ptr);
+			j++;
 		}
+		ft_putnbr(j);
+		ai->worldmap[i][j] = '\0';
 		i++;
+		ft_putendl("HERE7");
+
 	}
+
 }

@@ -18,7 +18,7 @@
 
 # define SHORT !line || (fd < 0 || fd >= MAX_FD) || (read(fd, stack[fd], 0) < 0)
 # define MAX_FD 1024 + 1
-# define BUFF_SIZE 10
+# define BUFF_SIZE 1
 
 typedef struct		s_list
 {
