@@ -29,13 +29,13 @@ t_dataset	*init_dataset(t_dataset *ai, char *argv)
 	ai->planey = 0.66;
 	ai->time = 0;
 	ai->oldtime = 0;
-	ai->rotspeed = .4;
+	ai->rotspeed = 0.1;
 	ai->movespeed = .3;
 	ai->row = 0;
 	ai->a = 0;
 	ai->cnt = 0;
 	ai->line = 0;
-	ai->coof = 600;
+	ai->coof = 640;
 	ai->txt_mod = 0;
 	ai->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * ai->amount);
 	return (ai);
@@ -78,6 +78,9 @@ void	init_textures1(t_dataset *ai)
 	if(!(ai->txt[2]->img = mlx_xpm_file_to_image(ai->mlx, 
 				"./textures/furnace_side.xpm", &ai->size, &ai->size)))
 			sys_error(TEXTURE);
+	if (!(ai->wep_left = mlx_xpm_file_to_image(ai->mlx, "./textures/sword_left.xpm",
+			&(ai->wep_left_w), &(ai->wep_left_h))))
+			sys_error(TEXTURE);
 }
 
 void	init_textures2(t_dataset *ai)
@@ -118,5 +121,20 @@ void	init_textures3(t_dataset *ai)
 			sys_error(TEXTURE);
 	if(!(ai->txt[7]->img_ptr = (int *)mlx_get_data_addr(ai->txt[7]->img,
 			&ai->txt[7]->bpp, &ai->txt[7]->sl, &ai->txt[7]->ending)))
+			sys_error(IMG_PTR);
+	if(!(ai->menu = mlx_xpm_file_to_image(ai->mlx, "./textures/gui.xpm",
+			&(ai->menu_w), &(ai->menu_h))))
+			sys_error(TEXTURE);
+	if(!(ai->img_menu = (int*)mlx_get_data_addr(ai->menu, &(ai->menu_bpp),
+			&(ai->menu_sl), &(ai->menu_end))))
+			sys_error(IMG_PTR);
+	if (!(ai->wep_right = mlx_xpm_file_to_image(ai->mlx, "./textures/sword_right.xpm",
+			&(ai->wep_right_w), &(ai->wep_right_h))))
+			sys_error(TEXTURE);
+	if(!(ai->img_wep_right = (int*)mlx_get_data_addr(ai->wep_right, &(ai->wep_right_bpp),
+			&(ai->wep_right_sl), &(ai->wep_right_end))))
+			sys_error(IMG_PTR);
+	if (!(ai->img_wep_left = (int*)mlx_get_data_addr(ai->wep_left, &(ai->wep_left_bpp),
+			&(ai->wep_left_sl), &(ai->wep_left_end))))
 			sys_error(IMG_PTR);
 }

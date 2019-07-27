@@ -23,7 +23,7 @@ void	draw_dot(t_dataset *ai)
 
 void	draw_floor(t_dataset *ai)
 {
-	ai->tex_color = YELLOW;
+	ai->tex_color = CLR;
 	ai->drawstart--;
 	while (++ai->drawstart < HGT)
 		draw_dot(ai);

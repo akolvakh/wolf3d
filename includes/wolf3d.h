@@ -69,7 +69,8 @@ enum				e_colors
 	GREEN = 0x98FB98,
 	BLUE = 0x0000FF,
 	DARK_GREEN = 0x247812,
-	BLACK = 0x000000
+	BLACK = 0x000000,
+	CLR = 0xe8e5c3
 };
 
 enum				e_display
@@ -153,14 +154,10 @@ typedef struct		s_dataset
 	/*
 	**   textures
 	*/
-	void			*ceil;
-	void			*floor;
 	void			*menu;
 	void			*wep_left;//
 	void			*wep_right;
 	int				*img_wall;
-	int				*img_ceil;
-	int				*img_floor;
 	int				*img_wep_left;
 	int				*img_wep_right;
 	int				*img_menu;
@@ -233,17 +230,6 @@ typedef struct		s_dataset
 	int				tx7_w;
 	int				tx7_h;
 
-
-	int				ceil_sl;
-	int				ceil_end;
-	int				ceil_bpp;
-	int				ceil_w;
-	int				ceil_h;
-	int				floor_h;
-	int				floor_w;
-	int				floor_sl;
-	int				floor_end;
-	int				floor_bpp;
 	int				menu_h;
 	int				menu_w;
 	int				menu_sl;

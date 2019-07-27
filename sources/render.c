@@ -32,24 +32,12 @@ void	rdr_geometry(t_dataset *ai)
 
 void	rdr_player(t_dataset *ai)
 {
-	if (!(ai->wep_right = mlx_xpm_file_to_image(ai->mlx, "./textures/sword_right.xpm",
-			&(ai->wep_right_w), &(ai->wep_right_h))))
-			sys_error(TEXTURE);
-	if(!(ai->img_wep_right = (int*)mlx_get_data_addr(ai->wep_right, &(ai->wep_right_bpp),
-			&(ai->wep_right_sl), &(ai->wep_right_end))))
-			sys_error(IMG_PTR);
-	if (!(ai->wep_left = mlx_xpm_file_to_image(ai->mlx, "./textures/sword_left.xpm",
-			&(ai->wep_left_w), &(ai->wep_left_h))))
-			sys_error(TEXTURE);
-	if (!(ai->img_wep_left = (int*)mlx_get_data_addr(ai->wep_left, &(ai->wep_left_bpp),
-			&(ai->wep_left_sl), &(ai->wep_left_end))))
-			sys_error(IMG_PTR);
 	if (ai->control_up == 1 || ai->control_down == 1)
 	{
 		while (ai->coof < 650)
-			ai->coof = ai->coof + 25;
+			ai->coof = ai->coof + 100;
 		while (ai->coof > 650)
-			ai->coof = ai->coof - 25;
+			ai->coof = ai->coof - 100;
 	}
 	mlx_put_image_to_window(ai->mlx, ai->win, ai->wep_right, 1200, ai->coof);
 	mlx_put_image_to_window(ai->mlx, ai->win, ai->wep_left, 10, ai->coof);
@@ -57,26 +45,7 @@ void	rdr_player(t_dataset *ai)
 
 void	rdr_interface(t_dataset *ai)
 {
-	/*if(!(ai->ceil = mlx_xpm_file_to_image(ai->mlx, "./textures/ceil.xpm",
-			&(ai->ceil_w), &(ai->ceil_h))))
-			sys_error(TEXTURE);
-	if(!(ai->img_ceil = (int*)mlx_get_data_addr(ai->ceil, &(ai->ceil_bpp),
-			&(ai->ceil_sl), &(ai->ceil_end))))
-			sys_error(IMG_PTR);
-	if(!(ai->floor = mlx_xpm_file_to_image(ai->mlx, "./textures/floor.xpm",
-			&(ai->floor_w), &(ai->floor_h))))
-			sys_error(TEXTURE);
-	if(!(ai->img_floor = (int*)mlx_get_data_addr(ai->floor, &(ai->floor_bpp),
-			&(ai->floor_sl), &(ai->floor_end))))
-			sys_error(IMG_PTR);*/
-	if(!(ai->menu = mlx_xpm_file_to_image(ai->mlx, "./textures/gui.xpm",
-			&(ai->menu_w), &(ai->menu_h))))
-			sys_error(TEXTURE);
-	if(!(ai->img_menu = (int*)mlx_get_data_addr(ai->menu, &(ai->menu_bpp),
-			&(ai->menu_sl), &(ai->menu_end))))
-			sys_error(IMG_PTR);
-	//mlx_put_image_to_window(ai->mlx, ai->win, ai->ceil, 0, 0);
-	//mlx_put_image_to_window(ai->mlx, ai->win, ai->floor, 0, 400);
+
 	mlx_put_image_to_window(ai->mlx, ai->win, ai->img, 0, 0);
 	mlx_put_image_to_window(ai->mlx, ai->win, ai->menu, 0, 0);
 }

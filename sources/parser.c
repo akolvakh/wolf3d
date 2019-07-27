@@ -77,8 +77,6 @@ int         parser(t_dataset *ai)
 			free(ai->tmp[ai->a]);
 		}
 		ai->a = count_words(ai->buff, ' ');
-		// if (ai->a <= 1)
-		// 	sys_error(MAP);
 		free(ai->buff);
 		ai->line++;
 	}
@@ -99,9 +97,6 @@ void	init_level(t_dataset *ai)
 	ai->worldmap = (char **)ft_memalloc(sizeof(char) * ai->l * ai->row);
 	while(++i <= ai->row)
 		ai->worldmap[i] = (char *)ft_memalloc(sizeof(char*)*ai->l);
-	
-
-
 	i = 0;
 	while(i <= ai->row)
 	{
@@ -142,6 +137,5 @@ void	validate_level(t_dataset *ai)
 	}
 	if (ai-> row < 3)
 		sys_error(MAP);
-
 }
 

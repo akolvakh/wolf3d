@@ -54,15 +54,16 @@ void	bitmapping(t_dataset *ai)
 	{
 		d = (y * 256 - ai->h * 128 + ai->lineheight * 128); //(*1000 / 1000)
 		ai->texy = (((d * TEX_HGT) / ai->lineheight) / 256); // (*1000 / 1000)
-		if (ai->side == 1 && ai->raydiry < 0)
-			ai->tex_color = (ai->txt[(ai->texnum + ai->txt_mod) % 8]->
-			img_ptr[TEX_WDT * ai->texy + ai->texx] >> 1) & 0x7f7f7f;
+
 		if (ai->side == 1 && ai->raydiry > 0)
 			ai->tex_color = (ai->txt[(ai->texnum + 1 + ai->txt_mod) % 8]->
 			img_ptr[TEX_WDT * ai->texy + ai->texx] >> 1) & 0x7f7f7f;
 		if (ai->side == 0 && ai->raydirx < 0)
 			ai->tex_color = ai->txt[(ai->texnum + 2 + ai->txt_mod) % 8]->
 			img_ptr[TEX_WDT * ai->texy + ai->texx];
+		if (ai->side == 1 && ai->raydiry < 0)
+			ai->tex_color = (ai->txt[(ai->texnum + ai->txt_mod) % 8]->
+			img_ptr[TEX_WDT * ai->texy + ai->texx] >> 1) & 0x7f7f7f;
 		if (ai->side == 0 && ai->raydirx > 0)
 			ai->tex_color = ai->txt[(ai->texnum + 3 + ai->txt_mod) % 8]->
 			img_ptr[TEX_WDT * ai->texy + ai->texx];
