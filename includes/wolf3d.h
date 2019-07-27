@@ -99,7 +99,8 @@ enum				e_errors
 	FINISH = 10,
 	TEXTURE = 11,
 	IMG = 12,
-	IMG_PTR = 13
+	IMG_PTR = 13,
+	PLAYER = 14
 };
 
 enum				e_moves
@@ -161,10 +162,27 @@ typedef struct		s_dataset
 	int				*img_wep_left;
 	int				*img_wep_right;
 	int				*img_menu;
+	void			*start_img;
+	int				*start_ptr;
+	void			*skybox;
+	int				*imgsky;
+
+	int				sky_sl;
+	int				sky_bpp;
+	int				sky_end;
+	int				sky_w;
+	int				sky_h;
+
 
 	int				wall_sl;
 	int				wall_end;
 	int				wall_bpp;
+
+	int				start_img_sl;
+	int				start_img_bpp;
+	int				start_img_ending;
+	int				start_img_w;
+	int				start_img_h;
 
 	void			*tx0;
 	int				*img_tx0;
@@ -306,6 +324,7 @@ typedef struct		s_dataset
 	int				txt_mod;
 	int 			size;
 
+	int				checker;
 }					t_dataset;
 
 t_dataset			*init_dataset(t_dataset *ai, char *argv);

@@ -35,6 +35,7 @@ void	sys_error(int err)
 	|| (err == INPUT && (out = "ERROR: too much input\n"))
 	|| (err == FINISH && (out = "MESSAGE: Exit the program\n"))
 	|| (err == TEXTURE && (out = "ERROR: invalid textures\n"))
+	|| (err == PLAYER && (out = "ERROR: player don't have free space\n"))
 	|| (err == USAGE && (out = "ERROR: invalid input. Read it ->\n\n")))
 		ft_putstr(out);
 	exit(-1);

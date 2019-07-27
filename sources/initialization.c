@@ -21,21 +21,21 @@ t_dataset	*init_dataset(t_dataset *ai, char *argv)
 	ai->amount = count_blocks(argv);
 	ai->w = WDT;
 	ai->h = HGT;
-	ai->posx = 1;
-	ai->posy = 1;
-	ai->dirx = -1;
-	ai->diry = 0;
 	ai->planex = 0;
 	ai->planey = 0.66;
 	ai->time = 0;
 	ai->oldtime = 0;
+	ai->posx = 5;
+	ai->posy = 5;
+	ai->dirx = -1;
+	ai->diry = 0;
 	ai->rotspeed = 0.1;
 	ai->movespeed = .3;
 	ai->row = 0;
 	ai->a = 0;
 	ai->cnt = 0;
 	ai->line = 0;
-	ai->coof = 640;
+	ai->coof = 500;
 	ai->txt_mod = 0;
 	ai->dot = (t_dot *)ft_memalloc(sizeof(t_dot) * ai->amount);
 	return (ai);
@@ -52,6 +52,17 @@ void	init_mlx(t_dataset *ai)
 	init_textures1(ai);
 	init_textures2(ai);
 	init_textures3(ai);
+	if(!(ai->start_img = mlx_xpm_file_to_image(ai->mlx, 
+				"./textures/start_window.xpm", &ai->start_img_w, &ai->start_img_h)))
+				sys_error(TEXTURE);
+	if(!(ai->start_ptr = (int *)mlx_get_data_addr(ai->start_img,
+				&ai->start_img_bpp, &ai->start_img_sl, &ai->start_img_ending)))
+				sys_error(IMG_PTR);
+	ai->checker = 0;
+	ai->skybox = mlx_xpm_file_to_image(ai->mlx, "./textures/ceil.xpm",
+			&(ai->sky_w), &(ai->sky_h));//
+	ai->imgsky = (int*)mlx_get_data_addr(ai->skybox, &(ai->sky_bpp),
+			&(ai->sky_sl), &(ai->sky_end));//
 }
 
 void	init_textures1(t_dataset *ai)

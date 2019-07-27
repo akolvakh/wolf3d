@@ -137,5 +137,9 @@ void	validate_level(t_dataset *ai)
 	}
 	if (ai-> row < 3)
 		sys_error(MAP);
+	i = ai->posx;
+	j = ai->posy;
+	if (ai->worldmap[j][i] != '0')
+		sys_error(PLAYER);
 }
 
