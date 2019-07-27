@@ -334,7 +334,8 @@ void	draw_dot(t_dataset *ai, int x, int y, int color);
 void				init_level(t_dataset *ai);
 void				init_textures(t_dataset *ai);
 void				init_color(t_dataset *ai);
-t_dataset			*init_dataset(char *argv);
+t_dataset			*init_dataset(t_dataset *ai, char *argv);
+void				init_mlx(t_dataset *ai);
 void				validate_level(t_dataset *ai);
 
 void				sys_error(int error);

@@ -12,11 +12,8 @@
 
 #include "wolf3d.h"
 
-t_dataset	*init_dataset(char *argv)
+t_dataset	*init_dataset(t_dataset *ai, char *argv)
 {
-	t_dataset *ai;
-
-	ai = (t_dataset *)ft_memalloc(sizeof(t_dataset));
 	ai->w = WDT;
 	ai->h = HGT;
 	ai->posx = 6;
@@ -44,20 +41,120 @@ t_dataset	*init_dataset(char *argv)
 	return (ai);
 }
 
-void	init_color(t_dataset *ai)
+void	init_mlx(t_dataset *ai)
 {
-	char color;
-
-	color = ai->worldmap[ai->mapx][ai->mapy];//менять цвет в зависимости от текстуры. То есть, брать ее, считывать, записывать в файл, проходиться по нему и записывать его.
-	//вектор записать по формуле х * у и дальше искать нужную координату, етс. 
-	if (color == '1')
-		ai->color = PINK;
-	else if (color == '2')
-		ai->color = YELLOW;
-	else if (color == '3')
-		ai->color = BLUE;
-	else if (color == '4')
-		ai->color = GREEN;
-	else if (color == '0')
-		ai->color = WHITE;
+	if (!(ai->mlx = mlx_init()))
+		sys_error(MLX);
+	if (!(ai->win = mlx_new_window(ai->mlx, WDT, HGT, "Wolf3D")))
+		sys_error(WIN);
+	if (!(ai->img = mlx_new_image(ai->mlx, WDT, HGT)))
+		sys_error(IMG);
+	init_textures(ai);
 }
+
+void	init_textures(t_dataset *ai) //4 textures
+{
+
+
+	int i;
+	int size;
+
+	size = 64;
+
+
+	i = -1;
+	ai->texture = (t_texture **)ft_memalloc(8 * sizeof(t_texture *));
+	while (++i < 8)
+		ai->texture[i] = (t_texture *) ft_memalloc(sizeof(t_texture));
+
+
+
+
+	ai->texture[0]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/crafting_table_side.xpm", &size, &size);
+
+	ai->texture[0]->img_ptr = (int *)mlx_get_data_addr(ai->texture[0]->img, &ai->texture[0]->bpp, &ai->texture[0]->sl, &ai->texture[0]->ending);
+
+	ai->texture[1]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/emerald_block.xpm",
+			&size, &size);
+	if(!(ai->texture[1]->img_ptr = (int *)mlx_get_data_addr(ai->texture[1]->img, 
+			&ai->texture[1]->bpp, &ai->texture[1]->sl, &ai->texture[1]->ending)))
+			sys_error(IMG_PTR);
+
+	ai->texture[2]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/furnace_side.xpm",
+			&size, &size);
+	if(!(ai->texture[2]->img_ptr = (int *)mlx_get_data_addr(ai->texture[2]->img, 
+			&ai->texture[2]->bpp, &ai->texture[2]->sl, &ai->texture[2]->ending)))
+			sys_error(IMG_PTR);
+
+
+	ai->texture[3]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/glowstone.xpm",
+			&size, &size);
+
+	if(!(ai->texture[3]->img_ptr = (int *)mlx_get_data_addr(ai->texture[3]->img, 
+			&ai->texture[3]->bpp, &ai->texture[3]->sl, &ai->texture[3]->ending)))
+			sys_error(IMG_PTR);
+
+	ai->texture[4]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/gold_block.xpm",
+			&size, &size);
+
+	if(!(ai->texture[4]->img_ptr = (int *)mlx_get_data_addr(ai->texture[4]->img, 
+			&ai->texture[4]->bpp, &ai->texture[4]->sl, &ai->texture[4]->ending)))
+			sys_error(IMG_PTR);
+
+
+	ai->texture[5]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/hay_block_side.xpm",
+			&size, &size);
+	if(!(ai->texture[5]->img_ptr = (int *)mlx_get_data_addr(ai->texture[5]->img, 
+			&ai->texture[5]->bpp, &ai->texture[5]->sl, &ai->texture[5]->ending)))
+			sys_error(IMG_PTR);
+
+	ai->texture[6]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/lapis_block.xpm",
+			&size, &size);
+
+	if(!(ai->texture[6]->img_ptr = (int *)mlx_get_data_addr(ai->texture[6]->img, 
+			&ai->texture[6]->bpp, &ai->texture[6]->sl, &ai->texture[6]->ending)))
+			sys_error(IMG_PTR);
+
+	ai->texture[7]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/stonebrick.xpm",
+			&size, &size);
+
+	if(!(ai->texture[7]->img_ptr = (int *)mlx_get_data_addr(ai->texture[7]->img, 
+			&ai->texture[7]->bpp, &ai->texture[7]->sl, &ai->texture[7]->ending)))
+			sys_error(IMG_PTR);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void	init_color(t_dataset *ai)
+// {
+// 	char color;
+
+// 	color = ai->worldmap[ai->mapx][ai->mapy];//менять цвет в зависимости от текстуры. То есть, брать ее, считывать, записывать в файл, проходиться по нему и записывать его.
+// 	//вектор записать по формуле х * у и дальше искать нужную координату, етс. 
+// 	if (color == '1')
+// 		ai->color = PINK;
+// 	else if (color == '2')
+// 		ai->color = YELLOW;
+// 	else if (color == '3')
+// 		ai->color = BLUE;
+// 	else if (color == '4')
+// 		ai->color = GREEN;
+// 	else if (color == '0')
+// 		ai->color = WHITE;
+// }

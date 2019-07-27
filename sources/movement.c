@@ -27,8 +27,8 @@ void	movement_up(t_dataset *ai)
 	{
 		if (ai->worldmap[x][y] == '0')
 		{
-			ai->posx += ai->dirx * ai->movespeed;
-			ai->posy += ai->diry * ai->movespeed;
+			ai->posx = ai->posx + ai->dirx * ai->movespeed;
+			ai->posy = ai->posy + ai->diry * ai->movespeed;
 			rdr_pipeline(ai);
 			sys_message(UP);
 		}
@@ -46,8 +46,8 @@ void	movement_down(t_dataset *ai)
 	{
 		if (ai->worldmap[x][y] == '0')
 		{
-			ai->posx -= ai->dirx * ai->movespeed;
-			ai->posy -= ai->diry * ai->movespeed;
+			ai->posx = ai->posx - ai->dirx * ai->movespeed;
+			ai->posy = ai->posy - ai->diry * ai->movespeed;
 			rdr_pipeline(ai);
 			sys_message(DOWN);
 		}
@@ -62,10 +62,8 @@ void	movement_right(t_dataset *ai)
 		ai->dirx = ai->dirx * cos(-ai->rotspeed) - ai->diry * sin(-ai->rotspeed);
 		ai->diry = ai->olddirx * sin(-ai->rotspeed) + ai->diry * cos(-ai->rotspeed);
 		ai->oldplanex = ai->planex;
-		ai->planex = ai->planex * cos(-ai->rotspeed) -
-			ai->planey * sin(-ai->rotspeed);
-		ai->planey = ai->oldplanex * sin(-ai->rotspeed) +
-			ai->planey * cos(-ai->rotspeed);
+		ai->planex = ai->planex * cos(-ai->rotspeed) - ai->planey * sin(-ai->rotspeed);
+		ai->planey = ai->oldplanex * sin(-ai->rotspeed) + ai->planey * cos(-ai->rotspeed);
 		rdr_pipeline(ai);
 		sys_message(RIGHT);
 	}
@@ -77,12 +75,10 @@ void	movement_left(t_dataset *ai)
 	{
 		ai->olddirx = ai->dirx;
 		ai->dirx = ai->dirx * cos(ai->rotspeed) - ai->diry * sin(ai->rotspeed);
-		ai->diry = ai->olddirx * sin(ai->rotspeed) +
-			ai->diry * cos(ai->rotspeed);
+		ai->diry = ai->olddirx * sin(ai->rotspeed) + ai->diry * cos(ai->rotspeed);
 		ai->oldplanex = ai->planex;
 		ai->planex = ai->planex * cos(ai->rotspeed) - ai->planey * sin(ai->rotspeed);
-		ai->planey = ai->oldplanex * sin(ai->rotspeed) +
-			ai->planey * cos(ai->rotspeed);
+		ai->planey = ai->oldplanex * sin(ai->rotspeed) + ai->planey * cos(ai->rotspeed);
 		rdr_pipeline(ai);
 		sys_message(LEFT);
 	}

@@ -37,6 +37,7 @@ void	sys_error(int err)
 	|| (err == TEXTURE && (out = "ERROR: invalid textures\n"))
 	|| (err == USAGE && (out = "ERROR: invalid input. Read it ->\n\n")))
 		ft_putstr(out);
+	system("leaks > leaks wolf3d");
 	exit(-1);
 }
 
@@ -54,13 +55,18 @@ void	sys_message(int msg)
 		ft_putstr(out);
 }
 
-void	sys_free(t_dataset *ai)//
+void	sys_free(t_dataset *ai)
 {
 	int i;
 
 	i = -1;
 	while (++i <= ai->row)
 		free(ai->worldmap[i]);
+	free(ai->dot);
+	i = -1;
+	while (++i < 8)
+		free(ai->texture[i]);
+	free(ai->texture);
 	free(ai->worldmap);
 	free(ai);//double free
 }
