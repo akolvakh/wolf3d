@@ -77,6 +77,8 @@ int         parser(t_dataset *ai)
 			free(ai->tmp[ai->a]);
 		}
 		ai->a = count_words(ai->buff, ' ');
+		// if (ai->a <= 1)
+		// 	sys_error(MAP);
 		free(ai->buff);
 		ai->line++;
 	}
@@ -138,5 +140,8 @@ void	validate_level(t_dataset *ai)
 			sys_error(MAP);
 		i++;
 	}
+	if (ai-> row < 3)
+		sys_error(MAP);
+
 }
 

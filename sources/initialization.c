@@ -16,8 +16,8 @@ t_dataset	*init_dataset(t_dataset *ai, char *argv)
 {
 	ai->w = WDT;
 	ai->h = HGT;
-	ai->posx = 6;
-	ai->posy = 8;
+	ai->posx = 1;
+	ai->posy = 1;
 	ai->dirx = -1;
 	ai->diry = 0;
 	ai->planex = 0;
@@ -63,54 +63,54 @@ void	init_textures(t_dataset *ai) //4 textures
 	while (++i < 8)
 		ai->texture[i] = (t_texture *) ft_memalloc(sizeof(t_texture));
 
-	ai->texture[0]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/crafting_table_side.xpm", &size, &size);
-
+	if(!(ai->texture[0]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/crafting_table_side.xpm", &size, &size)))
+				sys_error(TEXTURE);
 	ai->texture[0]->img_ptr = (int *)mlx_get_data_addr(ai->texture[0]->img, &ai->texture[0]->bpp, &ai->texture[0]->sl, &ai->texture[0]->ending);
 
-	ai->texture[1]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/sandstone_top.xpm",
-			&size, &size);
+
+
+	if(!(ai->texture[1]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/sandstone_top.xpm", &size, &size)))
+				sys_error(TEXTURE);
 	if(!(ai->texture[1]->img_ptr = (int *)mlx_get_data_addr(ai->texture[1]->img, 
 			&ai->texture[1]->bpp, &ai->texture[1]->sl, &ai->texture[1]->ending)))
 			sys_error(IMG_PTR);
 
-	ai->texture[2]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/furnace_side.xpm",
-			&size, &size);
+
+
+	if(!(ai->texture[2]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/furnace_side.xpm", &size, &size)))
+			sys_error(TEXTURE);
 	if(!(ai->texture[2]->img_ptr = (int *)mlx_get_data_addr(ai->texture[2]->img, 
 			&ai->texture[2]->bpp, &ai->texture[2]->sl, &ai->texture[2]->ending)))
 			sys_error(IMG_PTR);
 
 
-	ai->texture[3]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/glowstone.xpm",
-			&size, &size);
-
+	if(!(ai->texture[3]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/glowstone.xpm", &size, &size)))
+			sys_error(TEXTURE);
 	if(!(ai->texture[3]->img_ptr = (int *)mlx_get_data_addr(ai->texture[3]->img, 
 			&ai->texture[3]->bpp, &ai->texture[3]->sl, &ai->texture[3]->ending)))
 			sys_error(IMG_PTR);
 
-	ai->texture[4]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/gold_block.xpm",
-			&size, &size);
-
+	if(!(ai->texture[4]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/gold_block.xpm", &size, &size)))
+			sys_error(TEXTURE);
 	if(!(ai->texture[4]->img_ptr = (int *)mlx_get_data_addr(ai->texture[4]->img, 
 			&ai->texture[4]->bpp, &ai->texture[4]->sl, &ai->texture[4]->ending)))
 			sys_error(IMG_PTR);
 
 
-	ai->texture[5]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/hay_block_side.xpm",
-			&size, &size);
+	if(!(ai->texture[5]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/hay_block_side.xpm", &size, &size)))
+			sys_error(TEXTURE);
 	if(!(ai->texture[5]->img_ptr = (int *)mlx_get_data_addr(ai->texture[5]->img, 
 			&ai->texture[5]->bpp, &ai->texture[5]->sl, &ai->texture[5]->ending)))
 			sys_error(IMG_PTR);
 
-	ai->texture[6]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/lapis_block.xpm",
-			&size, &size);
-
+	if(!(ai->texture[6]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/lapis_block.xpm", &size, &size)))
+			sys_error(TEXTURE);
 	if(!(ai->texture[6]->img_ptr = (int *)mlx_get_data_addr(ai->texture[6]->img, 
 			&ai->texture[6]->bpp, &ai->texture[6]->sl, &ai->texture[6]->ending)))
 			sys_error(IMG_PTR);
 
-	ai->texture[7]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/stonebrick.xpm",
-			&size, &size);
-
+	if(!(ai->texture[7]->img = mlx_xpm_file_to_image(ai->mlx, "./textures/stonebrick.xpm", &size, &size)))
+			sys_error(TEXTURE);
 	if(!(ai->texture[7]->img_ptr = (int *)mlx_get_data_addr(ai->texture[7]->img, 
 			&ai->texture[7]->bpp, &ai->texture[7]->sl, &ai->texture[7]->ending)))
 			sys_error(IMG_PTR);
