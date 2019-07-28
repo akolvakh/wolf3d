@@ -17,8 +17,6 @@ void	validate_level(t_dataset *ai)
 	int j;
 
 	i = 0;
-		ft_putendl("HERE9");
-
 	while(i <= ai->row)
 	{
 		if(i == 0 || i == ai->row)
@@ -26,14 +24,11 @@ void	validate_level(t_dataset *ai)
 			j = 0;
 			while (ai->worldmap[i][j])
 			{
-										ft_putendl("HERE10");
-
 				if (ai->worldmap[i][j] == '0')
 					sys_error(ai, MAP);
 				j++;
 			}
 		}
-
 		if( ai->worldmap[i][0] == '0' || ai->worldmap[i][j - 1] == '0')
 			sys_error(ai, MAP);
 		i++;

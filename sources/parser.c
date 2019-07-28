@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//тут цикл и вертушку по записи сразу в нужный буфер?
-//(писать сразу значения сюда и в этот буфер?)
-
 #include "wolf3d.h"
 
 int		    count_words(t_dataset *ai, const char *s, char c)
@@ -81,7 +78,6 @@ int         parser(t_dataset *ai)
 		ai->line++;
 	}
 	free(ai->tmp);
-
 	return (ai->line);
 }
 
@@ -104,10 +100,6 @@ void	init_level(t_dataset *ai)
 		j = 0;
 		while(j < ai->l)
 		{
-			ft_putnbr(ai->row);
-			ft_putchar('\n');
-			ft_putnbr(ai->l);
-			ft_putchar('\n');
 			ptr = ft_itoa(ai->dot[k].z);
 			numb = *ptr;
 			ai->worldmap[i][j] = numb;
@@ -115,11 +107,7 @@ void	init_level(t_dataset *ai)
 			free(ptr);
 			j++;
 		}
-		ft_putnbr(j);
-		ai->worldmap[i][j] = '\0';
+		ai->worldmap[i][j] = '\0';//
 		i++;
-		ft_putendl("HERE7");
-
 	}
-
 }

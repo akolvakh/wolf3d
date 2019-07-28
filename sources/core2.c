@@ -20,9 +20,11 @@ void	check_distance(t_dataset *ai)
 			ai->hit = 1;
 	}
 	if (ai->side == 0)
-		ai->perpwalldist = (ai->mapx - ai->rayposx + (1 - ai->stepx) / 2) / ai->raydirx;
+		ai->perpwalldist = (ai->mapx - ai->rayposx +
+			(1 - ai->stepx) / 2) / ai->raydirx;
 	else
-		ai->perpwalldist = (ai->mapy - ai->rayposy + (1 - ai->stepy) / 2) / ai->raydiry;
+		ai->perpwalldist = (ai->mapy - ai->rayposy +
+			(1 - ai->stepy) / 2) / ai->raydiry;
 	ai->lineheight = (int)(ai->h / ai->perpwalldist);
 	ai->drawstart = -(ai->lineheight) / 2 + ai->h / 2;
 }
@@ -35,8 +37,6 @@ void	texturation(t_dataset *ai)
 	else
 		ai->wallx = ai->posx + ai->perpwalldist * ai->raydirx;
 	ai->wallx = ai->wallx - floor((ai->wallx));
-
-	
 	ai->texx = (ai->wallx * TEX_WDT);
 	if (ai->side == 0 && ai->raydirx > 0)
 		ai->texx = TEX_WDT - ai->texx - 1;
@@ -54,7 +54,6 @@ void	bitmapping(t_dataset *ai)
 	{
 		d = (1000 * (y * 256 - ai->h * 128 + ai->lineheight * 128) / 1000); //(*1000 / 1000)
 		ai->texy = (1000 * (((d * TEX_HGT) / ai->lineheight) / 256) / 1000); // (*1000 / 1000)
-
 		if (ai->side == 1 && ai->raydiry > 0)
 			ai->tex_color = (ai->txt[(ai->texnum + 1 + A) % 8]->
 			img_ptr[TEX_WDT * ai->texy + ai->texx] >> 1) & 0x7f7f7f;//
@@ -73,7 +72,7 @@ void	bitmapping(t_dataset *ai)
 	}
 }
 
-void	visualization(t_dataset *ai)//
+void	visualization(t_dataset *ai)
 {
 	ai->drawstart = -(ai->lineheight) / 2 + ai->h / 2;
 	if (!(ai->drawstart > 0))
